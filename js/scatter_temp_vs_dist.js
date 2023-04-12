@@ -64,7 +64,12 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-90)");
 
     svg.append("g")
         .attr("class", "y axis")

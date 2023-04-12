@@ -261,14 +261,7 @@ textarea {
   }
 }
 
-
-.scatter_temp_vs_dist {
-  margin-left: 300px;
-  /* border: 3px solid black; */
-  padding: 10px;
-}
-
 .radius_vs_count1, .radius_vs_count2 {
-  margin-left: 400px;
-  margin-top: 100px;
+  /* margin-left: 400px;
+  margin-top: 100px; */
 }
