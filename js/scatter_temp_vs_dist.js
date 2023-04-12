@@ -105,7 +105,7 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
                 // console.log("yay")
                 return "green"; // habitable planet
             } else {
-                return "steelblue"; // non-habitable planet
+                return "red"; // non-habitable planet
             }
         });
 
