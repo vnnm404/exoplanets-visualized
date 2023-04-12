@@ -43,8 +43,8 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
 
   const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
   const totals = data.map(d => sumValues(d.data));
-  console.log(totals);
-  console.log([0, d3.max(totals)]);
+  // console.log(totals);
+  // console.log([0, d3.max(totals)]);
 
   const y = d3.scaleLinear()
     .domain([0, d3.max(data.map(d => sumValues(d.data))) + 250])
@@ -121,7 +121,7 @@ async function draw() {
       return c;
     }, {})
   );
-  console.log(out);
+  // console.log(out);
   raw = out;
 
   const data = [];
@@ -141,7 +141,7 @@ async function draw() {
   ];
   const colorMap = {};
   methods.forEach((method, i) => {
-    console.log(method, colors[i]);
+    // console.log(method, colors[i]);
     colorMap[method] = '#' + colors[i];
   });
 
