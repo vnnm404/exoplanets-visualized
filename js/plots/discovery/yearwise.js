@@ -1,4 +1,4 @@
-function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap }) {
+function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) {
   const width = 600;
   const height = 400;
 
@@ -16,12 +16,12 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap }) {
     .attr('preserveAspectRatio', 'none')
     .attr('width', '100%');
   
-  svg.append('svg')
-    .attr('id', 'discovery-1-data')
-    .attr('x', leftMargin)
-    .attr('y', rightMargin);
+  // svg.append('svg')
+  //   .attr('id', 'discovery-1-data')
+  //   .attr('x', leftMargin)
+  //   .attr('y', rightMargin);
 
-  const svgData = svg.select('#discovery-1-data');
+  // const svgData = svg.select('#discovery-1-data');
 
   // draw x axis
   // svg.append('line')
@@ -31,14 +31,15 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap }) {
 
   const x = d3.scaleBand()
     .range([leftMargin, w + leftMargin])
-    .domain(data.map(d => d.year));
+    .domain(data.map(d => d.year))
+    .padding(0.1);
 
-  svg.append("g")
-    .attr("transform", "translate(0," + (height - bottomMargin) + ")")
+  svg.append('g')
+    .attr('transform', 'translate(0,' + (height - bottomMargin) + ')')
     .call(d3.axisBottom(x))
-    .selectAll("text")
-      .attr("transform", "translate(0,4)rotate(-45)scale(0.7)")
-      .style("text-anchor", "end");
+    .selectAll('text')
+      .attr('transform', 'translate(0,4)rotate(-45)scale(0.7)')
+      .style('text-anchor', 'end');
 
   const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
   const totals = data.map(d => sumValues(d.data));
@@ -46,21 +47,49 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap }) {
   console.log([0, d3.max(totals)]);
 
   const y = d3.scaleLinear()
-    .domain([0, d3.max(data.map(d => sumValues(d.data)))])
-    .range([height, 0]);
+    .domain([0, d3.max(data.map(d => sumValues(d.data))) + 250])
+    .range([height - bottomMargin, bottomMargin]);
 
-  svg.append("g")
-    .attr("transform", "translate(" + leftMargin + "," +  + ")")
+  svg.append('g')
+    .attr('transform', 'translate(' + leftMargin + ',' + 0 + ')')
     .call(d3.axisLeft(y))
-    .selectAll("text")
-      .attr("transform", "scale(0.7)")
-      .style("text-anchor", "end");
+    .selectAll('text')
+      .attr('transform', 'scale(0.7)')
+      .style('text-anchor', 'end');
+
+  const yearHeight = {};
+  data.forEach(d => {
+    yearHeight[d.year] = 0;
+  });
+
+  ordinalSet.forEach((item, i) => {
+    svg.selectAll('bars')
+      .data(data)
+      .enter()
+      .append('rect')
+        .attr('x', d => x(d.year))
+        .attr('y', d => y(d.data[item]) - (yearHeight[d.year]))
+        .attr('width', x.bandwidth())
+        .attr('height', d => {
+          const rectHeight = height - y(d.data[item]) - bottomMargin;
+          yearHeight[d.year] += rectHeight;
+          return rectHeight;
+        })
+        .attr('fill', colorMap[item]);
+
+    svg.append('text')
+      .attr('transform', 'scale(0.47)')
+      .attr('x', leftMargin + 100)
+      .attr('y', i * 30 + 200)
+      .attr('fill', colorMap[item])
+      .text(item);
+  });
 
   return svg.node();
 }
 
 async function draw() {
-  const raw = await d3.csv('/data/stacked_discovery_year.csv');
+  let raw = await d3.csv('/data/stacked_discovery_year.csv');
 
   const years = raw.map(d => d.disc_year)
     .filter((value, index, array) => array.indexOf(value) === index);
@@ -68,34 +97,42 @@ async function draw() {
   years.sort();
 
   const methods = raw.map(d => d.discoverymethod)
-  .filter((value, index, array) => array.indexOf(value) === index);
-  
+    .filter((value, index, array) => array.indexOf(value) === index);
+
+  const out = Object.values(
+    raw.reduce((c, e) => {
+      if (!c[e.pl_name]) c[e.pl_name] = e;
+      return c;
+    }, {})
+  );
+  console.log(out);
+  raw = out;
+
   const data = [];
   years.forEach(year => {
     const entry = {};
     methods.forEach(method => {
       entry[method] = raw.filter(d => d.disc_year === year && d.discoverymethod === method).length;
-      if (entry[method] > 12000) {
-        console.log(year, method);
-      }
     });
 
     data.push({ year, data: entry });
   });
 
   const colors = [
-    '#03071e','#370617','#6a040f','#9d0208','#d00000',
-    '#dc2f02','#e85d04','#f48c06','#faa307','#ffba08',
-    '#8d99ae'
+    "332C39","586f7c","2ec4b6","609EA2","ff9f1c",
+    "2364aa","3da5d9","73bfb8","C92C6D","ea7317",
+    "efdd8d"
   ];
   const colorMap = {};
   methods.forEach((method, i) => {
-    colorMap[method] = colors[i];
+    console.log(method, colors[i]);
+    colorMap[method] = '#' + colors[i];
   });
 
   const svg = StackedBarChart(data, {
-    m: { lm: 0.05, rm: 0.05, tm: 0.05, bm: 0.1 },
-    colorMap
+    m: { lm: 0.1, rm: 0.05, tm: 0.1, bm: 0.2 },
+    colorMap,
+    ordinalSet: methods,
   });
 
   document.getElementById('discovery_plots').appendChild(svg);
