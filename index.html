@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html class="no-js" lang="en" data-theme="light">
 
 <head>
   <meta charset="utf-8">
@@ -18,20 +18,51 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/main.css">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
   <meta name="theme-color" content="#fafafa">
 </head>
 
 <body>
   <div>
-    <h1>Discovery</h1>
-    <p>
-      In this section we visualize how different exoplanets were discovered.
-      Certain types of methods specialize in identifying certain types of planets.
-    </p>
-    <div id="discovery_plots"></div>
-    <div id="general_plots"></div>
-    <div id="general_plots1"></div>
-    <div id="general_plots2"></div>
+    <main class="container">
+      <hgroup>
+        <h1>Discovery</h1>
+        <h3>How planets beyong our solar system were discovered</h3>
+      </hgroup>
+
+      <h3>Planets Discovered over the Years</h3>
+      <p>
+        There have been many methods to identify new planets, they have their own speciality.
+        Below plots which methods discovered how many planets yearwise.
+      </p>
+
+      <div class="grid">
+        <div id="discovery_plots"></div>
+      </div>
+
+      <h3>Habitability</h3>
+      <p>
+        Amongst the planets, only certain planets can sustain water content which is considered
+        the seed of life. The below plot shows which planets are at the right temperature and
+        at the right distance to sustain life. These planets could be habitable.
+      </p>
+
+      <div class="grid">
+        <div id="general_plots"></div>
+      </div>
+
+      <h3>Size does matter.</h3>
+      <p>
+        The size of a planet can reveal many things, here we compare how big planets discovered
+        are compared to Earth. One notices most planets are about 2 to 4 times bigger than earth.
+      </p>
+
+      <div class="grid">
+        <div id="general_plots1"></div>
+        <div id="general_plots2"></div>
+      </div>
+    </main>
   </div>
 
   <script src="js/vendor/modernizr-3.11.2.min.js"></script>
