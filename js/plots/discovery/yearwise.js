@@ -48,7 +48,7 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
 
   const y = d3.scaleLinear()
     .domain([0, d3.max(data.map(d => sumValues(d.data))) + 250])
-    .range([height - bottomMargin, bottomMargin]);
+    .range([height - bottomMargin, topMargin]);
 
   svg.append('g')
     .attr('transform', 'translate(' + leftMargin + ',' + 0 + ')')
@@ -84,6 +84,22 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
       .attr('fill', colorMap[item])
       .text(item);
   });
+
+  svg.append('text')
+    .attr('x', 200)
+    .attr('y', 20)
+    .text('Planets Detected per Year');
+
+  svg.append('text')
+    .attr('transform', 'rotate(-90, 30, 225)')
+    .attr('x', 30)
+    .attr('y', 225)
+    .text('Number of Detections');
+
+  svg.append('text')
+    .attr('x', 300)
+    .attr('y', 370)
+    .text('Year');
 
   return svg.node();
 }
@@ -130,7 +146,7 @@ async function draw() {
   });
 
   const svg = StackedBarChart(data, {
-    m: { lm: 0.1, rm: 0.05, tm: 0.1, bm: 0.2 },
+    m: { lm: 0.1, rm: 0.05, tm: 0.03, bm: 0.2 },
     colorMap,
     ordinalSet: methods,
   });
