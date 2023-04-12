@@ -1,4 +1,4 @@
-const margin = { top: 20, right: 30, bottom: 40, left: 80 };
+const margin = { top: 20, right: 30, bottom: 100, left: 80 };
 const width = 1200 - margin.left - margin.right;
 const height = 800 - margin.top - margin.bottom;
 
@@ -84,7 +84,7 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
         .attr("class", "x label")
         .attr("text-anchor", "end")
         .attr("x", width / 2)
-        .attr("y", height + 35 + 5)
+        .attr("y", height + 35 + 20)
         .text("Distance in AU");
 
     svg.append("text")
