@@ -1,6 +1,6 @@
-var margin = { top: 20, right: 30, bottom: 40, left: 80 },
-    width = 1200 - margin.left - margin.right,
-    height = 800 - margin.top - margin.bottom;
+const margin = { top: 20, right: 30, bottom: 40, left: 80 };
+const width = 1200 - margin.left - margin.right;
+const height = 800 - margin.top - margin.bottom;
 
 // Load the data from the CSV file
 d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
@@ -53,9 +53,11 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
 
     // Create the SVG container and add the axes
     var svg = d3.select("#general_plots").append("svg")
-        .attr("class", "scatter_temp_vs_dist")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr('preserveAspectRatio', 'none')
+        .attr('width', '100%')
+        // .attr("width", width + margin.left + margin.right)
+        // .attr("height", height + margin.top + margin.bottom)
+        .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
