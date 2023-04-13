@@ -1,0 +1,23 @@
+.dp2-x-axis line {
+  stroke: grey;
+}
+
+.dp2-x-axis path {
+  stroke: grey;
+}
+
+.dp2-x-axis text {
+  color: aliceblue;
+}
+
+.dp2-y-axis line {
+  stroke: none;
+}
+
+.dp2-y-axis path {
+  stroke: none;
+}
+
+.dp2-y-axis text {
+  color: aliceblue;
+}
