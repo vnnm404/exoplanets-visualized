@@ -15,7 +15,7 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
     .attr('viewBox', '0 0 600 400')
     .attr('preserveAspectRatio', 'none')
     .attr('width', '100%');
-  
+
   // svg.append('svg')
   //   .attr('id', 'discovery-1-data')
   //   .attr('x', leftMargin)
@@ -34,12 +34,23 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
     .domain(data.map(d => d.year))
     .padding(0.1);
 
+  const xAxis = d3.axisBottom(x)
+    .tickSizeOuter(0)
+
   svg.append('g')
+    .attr("class", "x axis")
     .attr('transform', 'translate(0,' + (height - bottomMargin) + ')')
-    .call(d3.axisBottom(x))
+    .call(xAxis)
     .selectAll('text')
-      .attr('transform', 'translate(0,4)rotate(-45)scale(0.7)')
-      .style('text-anchor', 'end');
+    .attr('transform', 'translate(0,4)rotate(-45)scale(0.7)')
+    .style('text-anchor', 'end')
+    .style("fill", "white")
+
+  svg.selectAll('.x.axis path')
+    .attr("stroke", "white")
+
+  svg.selectAll('.x.axis line')
+    .attr("stroke", "white")
 
   const sumValues = obj => Object.values(obj).reduce((a, b) => a + b, 0);
   const totals = data.map(d => sumValues(d.data));
@@ -51,11 +62,19 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
     .range([height - bottomMargin, topMargin]);
 
   svg.append('g')
+    .attr("class", "y axis")
     .attr('transform', 'translate(' + leftMargin + ',' + 0 + ')')
     .call(d3.axisLeft(y))
     .selectAll('text')
-      .attr('transform', 'scale(0.7)')
-      .style('text-anchor', 'end');
+    .attr('transform', 'scale(0.7)')
+    .style('text-anchor', 'end')
+    .style("fill", "white")
+
+  svg.selectAll(".y.axis path")
+    .style("stroke", "white");
+
+  svg.selectAll(".y.axis line")
+    .style("stroke", "white");
 
   const yearHeight = {};
   data.forEach(d => {
@@ -67,15 +86,15 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
       .data(data)
       .enter()
       .append('rect')
-        .attr('x', d => x(d.year))
-        .attr('y', d => y(d.data[item]) - (yearHeight[d.year]))
-        .attr('width', x.bandwidth())
-        .attr('height', d => {
-          const rectHeight = height - y(d.data[item]) - bottomMargin;
-          yearHeight[d.year] += rectHeight;
-          return rectHeight;
-        })
-        .attr('fill', colorMap[item]);
+      .attr('x', d => x(d.year))
+      .attr('y', d => y(d.data[item]) - (yearHeight[d.year]))
+      .attr('width', x.bandwidth())
+      .attr('height', d => {
+        const rectHeight = height - y(d.data[item]) - bottomMargin;
+        yearHeight[d.year] += rectHeight;
+        return rectHeight;
+      })
+      .attr('fill', colorMap[item]);
 
     svg.append('text')
       .attr('transform', 'scale(0.47)')
@@ -88,18 +107,21 @@ function StackedBarChart(data, { m: { lm, rm, tm, bm }, colorMap, ordinalSet }) 
   svg.append('text')
     .attr('x', 200)
     .attr('y', 20)
-    .text('Planets Detected per Year');
+    .text('Planets Detected per Year')
+    .style("fill", "white");
 
   svg.append('text')
     .attr('transform', 'rotate(-90, 30, 225)')
     .attr('x', 30)
     .attr('y', 225)
-    .text('Number of Detections');
+    .text('Number of Detections')
+    .style("fill", "white");
 
   svg.append('text')
     .attr('x', 300)
     .attr('y', 370)
-    .text('Year');
+    .text('Year')
+    .style("fill", "white");
 
   return svg.node();
 }
@@ -135,8 +157,8 @@ async function draw() {
   });
 
   const colors = [
-    "332C39","586f7c","2ec4b6","609EA2","ff9f1c",
-    "2364aa","3da5d9","73bfb8","C92C6D","ea7317",
+    "9fc5e8", "586f7c", "2ec4b6", "609EA2", "ff9f1c",
+    "2364aa", "3da5d9", "73bfb8", "C92C6D", "ea7317",
     "efdd8d"
   ];
   const colorMap = {};

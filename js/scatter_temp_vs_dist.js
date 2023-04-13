@@ -38,13 +38,11 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
         .tickPadding(10)
         .tickFormat(function (d) {
             return d;
-        });
+        })
 
     var yAxis = d3.axisLeft(yScale)
         .tickSizeOuter(0)
         .tickPadding(10);
-
-
 
     // Define the habitable planet region
     var habitableMinTemp = 273; // K
@@ -55,8 +53,6 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
     var svg = d3.select("#general_plots").append("svg")
         .attr('preserveAspectRatio', 'none')
         .attr('width', '100%')
-        // .attr("width", width + margin.left + margin.right)
-        // .attr("height", height + margin.top + margin.bottom)
         .attr('viewBox', `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
@@ -70,22 +66,39 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
         .attr("transform", "rotate(-90)")
         .attr("dx", "-1.2em")
         .attr("dy", "-1.2em")
-        
+        .style("fill", "white")
+
+    svg.selectAll(".x.axis path")
+        .style("stroke", "white");
+
+    svg.selectAll(".x.axis line")
+        .style("stroke", "white");
 
     svg.append("g")
         .attr("class", "y axis")
-        .call(yAxis);
+        .call(yAxis)
+        .selectAll("text")
+        .style("fill", "white")
+
+    svg.selectAll(".y.axis path")
+        .style("stroke", "white");
+
+    svg.selectAll(".y.axis line")
+        .style("stroke", "white");
+
     // Bind the data to a selection of circles
     var circles = svg.selectAll("circle")
         .data(data)
         .enter()
         .append("circle");
+
     svg.append("text")
         .attr("class", "x label")
         .attr("text-anchor", "end")
         .attr("x", width / 2)
         .attr("y", height + 35 + 20)
-        .text("Distance in AU");
+        .text("Distance in AU")
+        .style("fill", "white");
 
     svg.append("text")
         .attr("class", "y label")
@@ -93,7 +106,8 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
         .attr("y", -45)
         .attr("x", -height / 2)
         .attr("transform", "rotate(-90)")
-        .text("Temperature");
+        .text("Temperature")
+        .style("fill", "white")
 
     // Set the position and size attributes based on the data
     circles.attr("cx", function (d) { return xScale(d.pl_orbsmax); })
@@ -102,7 +116,6 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
         .style("fill", function (d) {
 
             if (d.st_teff >= habitableMinTemp && d.st_teff <= habitableMaxTemp && d.pl_orbsmax <= habitableMaxDist) {
-                // console.log("yay")
                 return "green"; // habitable planet
             } else {
                 return "red"; // non-habitable planet
@@ -114,14 +127,16 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
         .attr("x1", xScale(0))
         .attr("y1", yScale(habitableMinTemp))
         .attr("x2", xScale(habitableMaxDist))
-        .attr("y2", yScale(habitableMinTemp));
+        .attr("y2", yScale(habitableMinTemp))
+        .style("stroke", "white")
 
     svg.append("line")
         .attr("class", "habitable-line")
         .attr("x1", xScale(habitableMaxDist))
         .attr("y1", yScale(habitableMinTemp))
         .attr("x2", xScale(habitableMaxDist))
-        .attr("y2", yScale(habitableMaxTemp));
+        .attr("y2", yScale(habitableMaxTemp))
+    // .style("stroke", "white")
 
 
 
