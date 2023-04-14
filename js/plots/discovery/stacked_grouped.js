@@ -1,4 +1,4 @@
-function chart(y01z, { width, height, margin, xAxis, y, yMax, x, n, y1Max, z }) {
+function chart(y01z, { width, height, margin, xAxis, y, yMax, x, n, y1Max, z, methods }) {
   const svg = d3.create('svg')
     .attr('preserveAspectRatio', 'none')
     .attr('width', '100%')
@@ -7,19 +7,25 @@ function chart(y01z, { width, height, margin, xAxis, y, yMax, x, n, y1Max, z }) 
   const rect = svg.selectAll('g')
     .data(y01z)
     .join('g')
-      .attr('fill', (d, i) => {
-        return z(i);
-      })
+    .attr('fill', (d, i) => {
+      console.log(i, z(i));
+      svg.append('text')
+        .attr('x', 50)
+        .attr('y', height - 200 - 15 * i)
+        .attr('style', `color: ${z(i)}; font-size: 0.5rem;`)
+        .text(methods[i]);
+      return z(i);
+    })
     .selectAll('rect')
     .data(d => d)
     .join('rect')
-      .attr('x', (d, i) => {
-        // console.log(i + 1992);
-        return x(i);
-      })
-      .attr('y', height - margin.bottom)
-      .attr('width', x.bandwidth())
-      .attr('height', 0);
+    .attr('x', (d, i) => {
+      // console.log(i + 1992);
+      return x(i);
+    })
+    .attr('y', height - margin.bottom)
+    .attr('width', x.bandwidth())
+    .attr('height', 0);
 
   svg.append('g')
     .attr('class', 'dp2-x-axis')
@@ -72,26 +78,26 @@ function chart(y01z, { width, height, margin, xAxis, y, yMax, x, n, y1Max, z }) 
     y.domain([0, yMax + 200]);
 
     rect.transition()
-        .duration(500)
-        .delay((d, i) => i * 20)
-        .attr('x', (d, i) => x(i) + x.bandwidth() / n * d[2])
-        .attr('width', x.bandwidth() / n)
+      .duration(500)
+      .delay((d, i) => i * 20)
+      .attr('x', (d, i) => x(i) + x.bandwidth() / n * d[2])
+      .attr('width', x.bandwidth() / n)
       .transition()
-        .attr('y', d => y(d[1] - d[0]))
-        .attr('height', d => y(0) - y(d[1] - d[0]));
+      .attr('y', d => y(d[1] - d[0]))
+      .attr('height', d => y(0) - y(d[1] - d[0]));
   }
 
   function transitionStacked() {
     y.domain([0, y1Max + 200]);
 
     rect.transition()
-        .duration(500)
-        .delay((d, i) => i * 20)
-        .attr('y', d => y(d[1]))
-        .attr('height', d => y(d[0]) - y(d[1]))
+      .duration(500)
+      .delay((d, i) => i * 20)
+      .attr('y', d => y(d[1]))
+      .attr('height', d => y(d[0]) - y(d[1]))
       .transition()
-        .attr('x', (d, i) => x(i))
-        .attr('width', x.bandwidth());
+      .attr('x', (d, i) => x(i))
+      .attr('width', x.bandwidth());
   }
 
   function update(layout) {
@@ -99,33 +105,33 @@ function chart(y01z, { width, height, margin, xAxis, y, yMax, x, n, y1Max, z }) 
     else transitionGrouped();
   }
 
-  return Object.assign(svg.node(), {update});
+  return Object.assign(svg.node(), { update });
 }
 
 async function draw() {
   let raw = await d3.csv('/data/stacked_grouped_data.csv');
 
   const out = Object.values(
-    raw.reduce( (c, e) => {
+    raw.reduce((c, e) => {
       if (!c[e.pl_name]) c[e.pl_name] = e;
       return c;
     }, {})
   );
 
   raw = out;
-  
+
   let years = raw.map(d => d.disc_year)
-  .filter((value, index, array) => array.indexOf(value) === index);
+    .filter((value, index, array) => array.indexOf(value) === index);
   years.push('1993'); // missing year
   years.sort();
   // years = years.map(year => Number(year));
-  
+
   const methods = raw.map(d => d.discoverymethod)
     .filter((value, index, array) => array.indexOf(value) === index);
 
   const width = 600;
   const height = 400;
-  const margin = {top: 0, right: 0, bottom: 50, left: 30};
+  const margin = { top: 0, right: 0, bottom: 50, left: 30 };
   const xAxis = svg => svg.append('g')
     .attr('transform', `translate(0,${height - margin.bottom})`)
     .call(d3.axisBottom(x).tickPadding(6).tickSizeOuter(0).tickFormat(i => {
@@ -170,7 +176,7 @@ async function draw() {
 
   // { width, height, margin, xAxis, y, yMax, x, n, y1Max }
   const svg = chart(y01z, {
-    width, height, margin, xAxis, y, yMax, x, n, y1Max, z
+    width, height, margin, xAxis, y, yMax, x, n, y1Max, z, methods
   });
   svg.update('stacked');
 

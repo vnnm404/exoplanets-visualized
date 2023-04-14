@@ -51,8 +51,6 @@ var svg = d3.select("#general_plots1")
     .attr("perspectiveAspectratio", 'none')
     .append("svg")
     .attr("viewBox", `0, 0, ${width + margin.left + margin.right}, ${height + margin.top + margin.bottom}`)
-    // .attr("width", width + margin.left + margin.right)
-    // .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${width / 2 + margin.left}, ${height / 2 + margin.top})`)
 
@@ -61,8 +59,6 @@ var svg2 = d3.select("#general_plots2")
     .attr("perspectiveAspectratio", 'none')
     .append("svg")
     .attr("viewBox", `0, 0, ${width + margin.left + margin.right}, ${height + margin.top + margin.bottom}`)
-    // .attr("width", width + margin.left + margin.right)
-    // .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${width / 2 + margin.left}, ${height / 2 + margin.top})`)
 
@@ -122,7 +118,7 @@ svg.append("text")
 
 svg.append("text")
     .text("(Earth = 1)")
-    .style("fill", "#40e0d0")
+    .style("fill", "#FC2E20")
     .style("font-size", "18 px")
     .attr("alignment-baseline", "middle")
     .attr("transform", "translate(-33, 25)")
@@ -138,7 +134,7 @@ svg.append("g")
     .selectAll("path")
     .data(ranges)
     .join("path")
-    .attr("fill", "#003366")
+    .attr("fill", "#FF5349")
     .attr("d", d3.arc()     // imagine your doing a part of a donut plot
         .innerRadius(innerRadius)
         .outerRadius(d => y(d.value))
@@ -146,6 +142,15 @@ svg.append("g")
         .endAngle(d => x(d.end) + x.bandwidth())
         .padAngle(0.01)
         .padRadius(innerRadius))
+    .attr("opacity", "0.5")
+    .on("mouseover", function (d) {  // Add mouseover event listener
+        d3.select(this)
+            .attr("opacity", "1");  // Modify fill color on hover
+    })
+    .on("mouseout", function (d) {  // Add mouseout event listener
+        d3.select(this)
+            .attr("opacity", "0.5");  // Reset fill color on mouseout
+    });
 
 svg2.append("g")
     .selectAll("g")
@@ -189,7 +194,7 @@ svg2.append("text")
 
 svg2.append("text")
     .text("(Earth = 1)")
-    .style("fill", "#40e0d0")
+    .style("fill", "#FC2E20")
     .style("font-size", "18 px")
     .attr("alignment-baseline", "middle")
     .attr("transform", "translate(-33, 25)")
@@ -205,7 +210,7 @@ svg2.append("g")
     .selectAll("path")
     .data(ranges2)
     .join("path")
-    .attr("fill", "#003366")
+    .attr("fill", "#FF5349")
     .attr("d", d3.arc()     // imagine your doing a part of a donut plot
         .innerRadius(innerRadius)
         .outerRadius(d => y(d.value))
@@ -213,6 +218,15 @@ svg2.append("g")
         .endAngle(d => x2(d.end) + x2.bandwidth())
         .padAngle(0.01)
         .padRadius(innerRadius))
+    .attr("opacity", "0.5")
+    .on("mouseover", function (d) {  // Add mouseover event listener
+        d3.select(this)
+            .attr("opacity", "1");  // Modify fill color on hover
+    })
+    .on("mouseout", function (d) {  // Add mouseout event listener
+        d3.select(this)
+            .attr("opacity", "0.5");  // Reset fill color on mouseout
+    });
 
 let yAxis = svg.append("g")
     .attr("text-anchor", "middle");
