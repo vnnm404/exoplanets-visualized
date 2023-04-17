@@ -260,3 +260,14 @@ textarea {
     page-break-after: avoid;
   }
 }
+
+hgroup {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('../img/space.gif');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
