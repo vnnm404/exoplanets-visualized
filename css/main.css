@@ -271,3 +271,8 @@ hgroup {
   background-size: cover;
   background-repeat: no-repeat;
 }
+
+.container > h3 {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
