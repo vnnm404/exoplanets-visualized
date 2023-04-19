@@ -1,120 +1,158 @@
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<head>
-  <meta charset="utf-8">
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
 
-  <meta property="og:title" content="">
-  <meta property="og:type" content="">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="">
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="apple-touch-icon" href="icon.png" />
 
-  <link rel="manifest" href="site.webmanifest">
-  <link rel="apple-touch-icon" href="icon.png">
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/discovery.css" />
 
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/discovery.css">
-  
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-  <link rel="stylesheet" href="css/bulma_custom.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+    <link rel="stylesheet" href="css/bulma_custom.css" />
 
-  <meta name="theme-color" content="#fafafa">
-</head>
+    <meta name="theme-color" content="#fafafa" />
+  </head>
 
-<body>
-  <div>
-    <hgroup>
-      <h1 style="font-size: 8rem;">Exoplanets</h1>
-      <h3 style="font-size: 2rem;">Planets beyond our solar system</h3>
-    </hgroup>
-    <div id="solar_system"></div>
-    <main class="container">
-      <h3>Planets Discovered over the Years</h3>
-      <p>
-        In the early years of exoplanet discovery, which began in the 1990s, the radial velocity method dominated the field. 
-        This method involves detecting the gravitational pull of a planet on its parent star, causing the star to exhibit a periodic "wobble" in its spectral lines.
-         Radial velocity measurements were often carried out using ground-based telescopes, and they resulted in the discovery of a substantial number of exoplanets, 
-         as depicted by a steep rise in the plot during this period.
-      </p>
-      <p>
-        As technology advanced and space-based telescopes, such as the Kepler Space Telescope, became operational, the transit method gained prominence. 
-        The transit method involves detecting the slight dip in a star's brightness as a planet passes in front of it, blocking a portion of its light. 
-        The plot shows a rapid increase in exoplanet discoveries during the years when the transit method was widely used, 
-        as denoted by a significant spike in the plot.
-      </p>
+  <body>
+    <div>
+      <hgroup>
+        <h1 style="font-size: 8rem">Exoplanets</h1>
+        <h3 style="font-size: 2rem">Planets beyond our solar system</h3>
+      </hgroup>
+      <div id="solar_system"></div>
+      <main class="container">
+        <h3>Planets Discovered over the Years</h3>
+        <p>
+          In the early years of exoplanet discovery, which began in the 1990s,
+          the radial velocity method dominated the field. This method involves
+          detecting the gravitational pull of a planet on its parent star,
+          causing the star to exhibit a periodic "wobble" in its spectral lines.
+          Radial velocity measurements were often carried out using ground-based
+          telescopes, and they resulted in the discovery of a substantial number
+          of exoplanets, as depicted by a steep rise in the plot during this
+          period.
+        </p>
+        <p>
+          As technology advanced and space-based telescopes, such as the Kepler
+          Space Telescope, became operational, the transit method gained
+          prominence. The transit method involves detecting the slight dip in a
+          star's brightness as a planet passes in front of it, blocking a
+          portion of its light. The plot shows a rapid increase in exoplanet
+          discoveries during the years when the transit method was widely used,
+          as denoted by a significant spike in the plot.
+        </p>
 
-      <form>
-        <fieldset>
-          <legend></legend>
-          <label for="Stacked">
-            <input type="radio" id="Stacked" name="size" value="Stacked" checked>
-            Stacked
-          </label>
-          <label for="Grouped">
-            <input type="radio" id="Grouped" name="size" value="Grouped">
-            Grouped
-          </label>
-        </fieldset>
-      </form>
+        <form>
+          <fieldset>
+            <legend></legend>
+            <label for="Stacked">
+              <input
+                type="radio"
+                id="Stacked"
+                name="size"
+                value="Stacked"
+                checked
+              />
+              Stacked
+            </label>
+            <label for="Grouped">
+              <input type="radio" id="Grouped" name="size" value="Grouped" />
+              Grouped
+            </label>
+          </fieldset>
+        </form>
 
-      <div class="grid">
-        <div id="discovery_plots2"></div>
-      </div>
+        <div class="grid">
+          <div id="discovery_plots2"></div>
+        </div>
 
-      <h3>Habitability</h3>
-      <p>
-        When assessing the habitability of exoplanets, a rudimentary analysis often takes into account two key factors: distance from the star and stellar effective temperature. 
-        These two parameters provide critical insights into whether a planet may possess the right conditions to support life as we know it.
-      </p>
-      <p>
-        Distance from the star, also known as orbital distance or planetary "habitable zone," refers to the region around a star where the conditions may be just right for liquid water to exist on the surface of a planet. 
-        It is considered a crucial factor in determining a planet's habitability because water is a fundamental ingredient for life as we know it. 
-        Planets that are too close to their star may experience extreme temperatures, causing water to evaporate or become trapped in a gaseous state. 
-        On the other hand, planets that are too far away may experience freezing temperatures, resulting in water being permanently frozen. 
-        Therefore, a planet that falls within the habitable zone, with an optimal distance from its star, is more likely to have conditions suitable for life to thrive.
-      </p>
-      <p>
-        Stellar effective temperature, often referred to as the surface temperature of a star, is another important factor in determining a planet's habitability. 
-        The effective temperature of a star influences the amount and type of radiation it emits, which in turn affects the climate and atmosphere of any planets orbiting it. 
-        Stars with higher effective temperatures tend to emit more ultraviolet (UV) radiation, which can be harmful to life as we know it. 
-        On the other hand, stars with lower effective temperatures emit less UV radiation, which may be conducive to the development of life.
-      </p>
+        <h3>Habitability</h3>
+        <p>
+          When assessing the habitability of exoplanets, a rudimentary analysis
+          often takes into account two key factors: distance from the star and
+          stellar effective temperature. These two parameters provide critical
+          insights into whether a planet may possess the right conditions to
+          support life as we know it.
+        </p>
+        <p>
+          Distance from the star, also known as orbital distance or planetary
+          "habitable zone," refers to the region around a star where the
+          conditions may be just right for liquid water to exist on the surface
+          of a planet. It is considered a crucial factor in determining a
+          planet's habitability because water is a fundamental ingredient for
+          life as we know it. Planets that are too close to their star may
+          experience extreme temperatures, causing water to evaporate or become
+          trapped in a gaseous state. On the other hand, planets that are too
+          far away may experience freezing temperatures, resulting in water
+          being permanently frozen. Therefore, a planet that falls within the
+          habitable zone, with an optimal distance from its star, is more likely
+          to have conditions suitable for life to thrive.
+        </p>
+        <p>
+          Stellar effective temperature, often referred to as the surface
+          temperature of a star, is another important factor in determining a
+          planet's habitability. The effective temperature of a star influences
+          the amount and type of radiation it emits, which in turn affects the
+          climate and atmosphere of any planets orbiting it. Stars with higher
+          effective temperatures tend to emit more ultraviolet (UV) radiation,
+          which can be harmful to life as we know it. On the other hand, stars
+          with lower effective temperatures emit less UV radiation, which may be
+          conducive to the development of life.
+        </p>
 
-      <div class="grid">
-        <div id="general_plots"></div>
-      </div>
+        <div class="grid">
+          <div id="general_plots"></div>
+        </div>
 
-      <h3>Size does matter.</h3>
-      <p>
-        The comparison of the relative radii of exoplanets to that of Earth provides valuable insights into the diverse range of planet sizes that have been discovered beyond our solar system. 
-        By grouping these exoplanets into different ranges based on their size in relation to Earth's radius, we can discern patterns and trends that shed light on the diversity of planetary compositions in the universe.
-      </p>
-      <p>
-        One common way to compare the relative radii of exoplanets to Earth is to use Earth's radius as a reference unit, denoted as "RE" (Earth radii). 
-        Exoplanets can then be classified into different size ranges based on their radii in relation to Earth's radius. 
-        For instance, exoplanets with radii smaller than 1 RE are considered "sub-Earth" or "super-Earth" size, as they are smaller or slightly larger than Earth, respectively. 
-        Exoplanets with radii between 1 RE and 2 RE are often classified as "mini-Neptunes," while those with radii larger than 2 RE are generally categorized as "gas giants" or "super giants."
-      </p>
+        <h3>Size does matter.</h3>
+        <p>
+          The comparison of the relative radii of exoplanets to that of Earth
+          provides valuable insights into the diverse range of planet sizes that
+          have been discovered beyond our solar system. By grouping these
+          exoplanets into different ranges based on their size in relation to
+          Earth's radius, we can discern patterns and trends that shed light on
+          the diversity of planetary compositions in the universe.
+        </p>
+        <p>
+          One common way to compare the relative radii of exoplanets to Earth is
+          to use Earth's radius as a reference unit, denoted as "RE" (Earth
+          radii). Exoplanets can then be classified into different size ranges
+          based on their radii in relation to Earth's radius. For instance,
+          exoplanets with radii smaller than 1 RE are considered "sub-Earth" or
+          "super-Earth" size, as they are smaller or slightly larger than Earth,
+          respectively. Exoplanets with radii between 1 RE and 2 RE are often
+          classified as "mini-Neptunes," while those with radii larger than 2 RE
+          are generally categorized as "gas giants" or "super giants."
+        </p>
 
-      <div class="grid">
-        <div id="general_plots1"></div>
-        <div id="general_plots2"></div>
-      </div>
-    </main>
-  </div>
+        <div class="grid">
+          <div id="general_plots1"></div>
+          <div id="general_plots2"></div>
+        </div>
+      </main>
+    </div>
 
-  <script src="js/vendor/modernizr-3.11.2.min.js"></script>
-  <script src="js/vendor/d3.v7.min.js"></script>
-  <script src="js/plugins.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/plots/discovery/stacked_grouped.js"></script>
-  <script src="js/scatter_temp_vs_dist.js" type="module"></script>
-  <script src="js/radius_vs_count.js" type="module"></script>
-  <script src="js/solar.js" type="module"></script>
-</body>
-
+    <script src="js/vendor/modernizr-3.11.2.min.js"></script>
+    <script src="js/vendor/d3.v7.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/plots/discovery/stacked_grouped.js"></script>
+    <script src="js/scatter_temp_vs_dist.js" type="module"></script>
+    <script src="js/radius_vs_count.js" type="module"></script>
+    <script src="js/solar.js" type="module"></script>
+  </body>
 </html>
