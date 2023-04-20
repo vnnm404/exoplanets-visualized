@@ -13,7 +13,7 @@ function chart(
     .data(y01z)
     .join("g")
     .attr("fill", (d, i) => {
-      console.log(i, z(i));
+      // console.log(i, z(i));
       svg
         .append("text")
         .attr("x", 50)
@@ -179,7 +179,35 @@ async function draw() {
     .keys(d3.range(n))(d3.transpose(yz))
     .map((data, i) => data.map(([y0, y1]) => [y0, y1, i]));
 
-  const z = d3.scaleSequential(d3.interpolateReds).domain([-0.5 * n, 1.5 * n]);
+  const z = d3.scaleSequential(d3.interpolateViridis).domain([0, n]);
+  // const z = (i) => {
+  //   const colors = [
+  //     "#23171b",
+  //     "#271a28",
+  //     "#4b46c0",
+  //     "#4b49c5",
+  //     "#54fa7d",
+  //     "#8dfc55",
+  //     "#99fa4e",
+  //     "#9cf94d",
+  //     "#9ff84b",
+  //     "#a2f84a",
+  //     "#a6f748",
+  //     "#a9f647",
+  //     "#acf546",
+  //     "#aff444",
+  //     "#b2f343",
+  //     "#b5f242",
+  //     "#b8f141",
+  //     "#bbf03f",
+  //     "#a11202",
+  //     "#9f1101",
+  //     "#900c00",
+  //     "#900c00",
+  //     "#900c00",
+  //   ];
+  //   return colors[colors.length - i - 1];
+  // };
 
   // console.log(y01z);
 
