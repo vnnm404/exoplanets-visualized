@@ -1,3 +1,15 @@
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: monospace !important;
+}
+
+p {
+  font-family: monospace !important;
+}
+
 .dp2-x-axis line {
   stroke: grey;
 }
@@ -20,4 +32,37 @@
 
 .dp2-y-axis text {
   color: aliceblue;
+}
+
+.dp3-x-axis line {
+  stroke: grey;
+}
+
+.dp3-x-axis path {
+  stroke: grey;
+}
+
+.dp3-x-axis text {
+  color: aliceblue;
+  font-size: smaller;
+  font-family: monospace;
+}
+
+.dp3-y-axis line {
+  stroke: grey;
+}
+
+.dp3-y-axis path {
+  stroke: grey;
+}
+
+.dp3-y-axis text {
+  color: aliceblue;
+  font-size: smaller;
+  font-family: monospace;
+}
+
+.dp3-grid line {
+  stroke: grey;
+  opacity: 0.7;
 }
