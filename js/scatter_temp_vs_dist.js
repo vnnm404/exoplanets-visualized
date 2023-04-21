@@ -6,7 +6,6 @@ const height = 800 - margin.top - margin.bottom;
 d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
   // Convert the data types from strings to numbers where appropriate
   data.forEach(function (d) {
-    // console.log("data ")
     d.sy_snum = +d.sy_snum;
     d.sy_pnum = +d.sy_pnum;
     d.sy_mnum = +d.sy_mnum;
@@ -65,12 +64,23 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
     .attr("width", "100%")
     .attr(
       "viewBox",
-      `0 0 ${width + margin.left + margin.right} ${
-        height + margin.top + margin.bottom
+      `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom
       }`
     )
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  let tooltip = d3.select("#general_plots")
+    .append("div")
+    .style("position", "absolute")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("color", "white")
+    .style("background-color", "black")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
 
   svg
     .append("g")
@@ -122,6 +132,7 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
     .style("fill", "white");
 
   // Set the position and size attributes based on the data
+  let name = ''
   circles
     .attr("cx", function (d) {
       return xScale(d.pl_orbsmax);
@@ -130,9 +141,10 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
       return yScale(d.st_teff);
     })
     .attr("r", function (d) {
-      return d.pl_rade / 5 || 3 / 5;
-    }) // set a default radius of 3 if pl_rade is missing
-    .style("fill", function (d) {
+      return d.pl_rade / 1.8 || 3 / 1.8;
+    })
+    .style("fill", "none") // set a default radius of 3 if pl_rade is missing
+    .style("stroke", function (d) {
       if (
         d.st_teff >= habitableMinTemp &&
         d.st_teff <= habitableMaxTemp &&
@@ -142,7 +154,33 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
       } else {
         return "red"; // non-habitable planet
       }
-    });
+    })
+    .on("mouseover", function (event, d) {
+      let matrix = this.getScreenCTM()
+        .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+
+      tooltip
+        .html(d.pl_name + ", temp: " + d.st_teff + ", distance: " + d.pl_orbsmax + " AU")
+        .style("opacity", 1)
+        .style("left", (window.pageXOffset + matrix.e + 15) + "px")
+        .style("top", (window.pageYOffset + matrix.f - 30) + "px");
+
+      if (
+        d.st_teff >= habitableMinTemp &&
+        d.st_teff <= habitableMaxTemp &&
+        d.pl_orbsmax <= habitableMaxDist
+      ) {
+        d3.select(this).style("fill", "green");
+      }
+      else {
+        d3.select(this).style("fill", "red");
+      }
+    })
+    .on("mouseout", function (d) {
+      tooltip
+        .style("opacity", 0)
+      d3.select(this).style("fill", "none");
+    });;
 
   svg
     .append("line")
