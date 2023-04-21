@@ -76,9 +76,8 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
     .style("opacity", 0)
     .attr("class", "tooltip")
     .style("color", "white")
-    .style("background-color", "black")
-    .style("border", "solid")
-    .style("border-width", "2px")
+    .style("background-color", "#11191f")
+    .style("border", "none")
     .style("border-radius", "5px")
     .style("padding", "5px")
 
