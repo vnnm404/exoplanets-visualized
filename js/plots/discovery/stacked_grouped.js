@@ -17,8 +17,8 @@ function chart(
       svg
         .append("text")
         .attr("x", 50)
-        .attr("y", height - 200 - 15 * i)
-        .attr("style", `color: ${z(i)}; font-size: 0.5rem;`)
+        .attr("y", height - 300 - 15 * i)
+        .attr("style", `color: ${z(i)}; font-size: 0.7rem;`)
         .text(methods[i]);
       return z(i);
     })
@@ -31,7 +31,8 @@ function chart(
     })
     .attr("y", height - margin.bottom)
     .attr("width", x.bandwidth())
-    .attr("height", 0);
+    .attr("height", 0)
+    .attr("opacity", 0.7);
 
   svg
     .append("g")
@@ -137,9 +138,25 @@ async function draw() {
   years.sort();
   // years = years.map(year => Number(year));
 
-  const methods = raw
+  let methods = raw
     .map((d) => d.discoverymethod)
     .filter((value, index, array) => array.indexOf(value) === index);
+
+  let newRaw = [];
+  let newMethods = [];
+  methods.forEach((method) => {
+    // console.log(method, raw.filter((d) => d.discoverymethod === method).length);
+
+    if (raw.filter((d) => d.discoverymethod === method).length > 50) {
+      newRaw = [...newRaw, ...raw.filter((d) => d.discoverymethod === method)];
+      newMethods.push(method);
+    }
+  });
+
+  // console.log(newRaw);
+  // console.log(newMethods);
+  raw = newRaw;
+  methods = newMethods;
 
   const width = 600;
   const height = 400;
@@ -179,21 +196,9 @@ async function draw() {
     .keys(d3.range(n))(d3.transpose(yz))
     .map((data, i) => data.map(([y0, y1]) => [y0, y1, i]));
 
-  // const z = d3.scaleSequential(d3.interpolateViridis).domain([0, n]);
+  // const z = d3.scaleSequential(d3.interpolateReds).domain([0, n]);
   const z = (i) => {
-    const colors = [
-      "#d3d3d3",
-      "#41049d",
-      "#6a00a8",
-      "#8f0da4",
-      "#b12a90",
-      "#cc4778",
-      "#e16462",
-      "#f2844b",
-      "#fca636",
-      "#fcce25",
-      "#f0f921",
-    ];
+    const colors = ["#ca0020", "#f4a582", "#92c5de", "#0571b0"];
     return colors[colors.length - i - 1];
   };
 
