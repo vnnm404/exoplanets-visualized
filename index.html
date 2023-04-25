@@ -34,119 +34,140 @@
         <h3 style="font-size: 2rem">Planets beyond our solar system</h3>
       </hgroup>
       <main class="container">
-        <h3>Planets Discovered over the Years</h3>
-        <p>
-          In the early years of exoplanet discovery, which began in the 1990s,
-          the radial velocity method dominated the field. This method involves
-          detecting the gravitational pull of a planet on its parent star,
-          causing the star to exhibit a periodic "wobble" in its spectral lines.
-          Radial velocity measurements were often carried out using ground-based
-          telescopes, and they resulted in the discovery of a substantial number
-          of exoplanets, as depicted by a steep rise in the plot during this
-          period.
-        </p>
-        <p>
-          As technology advanced and space-based telescopes, such as the Kepler
-          Space Telescope, became operational, the transit method gained
-          prominence. The transit method involves detecting the slight dip in a
-          star's brightness as a planet passes in front of it, blocking a
-          portion of its light. The plot shows a rapid increase in exoplanet
-          discoveries during the years when the transit method was widely used,
-          as denoted by a significant spike in the plot.
-        </p>
+        <section id="discovery">
+          <h1 style="font-size: 6rem">Discovery</h1>
+          <div id="discovery-over-the-years">
+            <h3>Planets Discovered over the Years</h3>
+            <p>
+              In the early years of exoplanet discovery, which began in the
+              1990s, the radial velocity method dominated the field. This method
+              involves detecting the gravitational pull of a planet on its
+              parent star, causing the star to exhibit a periodic "wobble" in
+              its spectral lines. Radial velocity measurements were often
+              carried out using ground-based telescopes, and they resulted in
+              the discovery of a substantial number of exoplanets, as depicted
+              by a steep rise in the plot during this period.
+            </p>
+            <p>
+              As technology advanced and space-based telescopes, such as the
+              Kepler Space Telescope, became operational, the transit method
+              gained prominence. The transit method involves detecting the
+              slight dip in a star's brightness as a planet passes in front of
+              it, blocking a portion of its light. The plot shows a rapid
+              increase in exoplanet discoveries during the years when the
+              transit method was widely used, as denoted by a significant spike
+              in the plot.
+            </p>
 
-        <form>
-          <fieldset>
-            <legend></legend>
-            <label for="Stacked">
-              <input
-                type="radio"
-                id="Stacked"
-                name="size"
-                value="Stacked"
-                checked
-              />
-              Stacked
-            </label>
-            <label for="Grouped">
-              <input type="radio" id="Grouped" name="size" value="Grouped" />
-              Grouped
-            </label>
-          </fieldset>
-        </form>
+            <form>
+              <fieldset>
+                <legend></legend>
+                <label for="Stacked">
+                  <input
+                    type="radio"
+                    id="Stacked"
+                    name="size"
+                    value="Stacked"
+                    checked
+                  />
+                  Stacked
+                </label>
+                <label for="Grouped">
+                  <input
+                    type="radio"
+                    id="Grouped"
+                    name="size"
+                    value="Grouped"
+                  />
+                  Grouped
+                </label>
+              </fieldset>
+            </form>
 
-        <div class="grid">
-          <div id="discovery_plots2"></div>
-        </div>
+            <div class="grid">
+              <div id="discovery_plots2"></div>
+            </div>
+          </div>
 
-        <h3>Hot Jupiters?</h3>
-        <p>
-          The mass-period exoplanet plot is a graphical representation of the
-          relationship between the mass and orbital period of planets outside of
-          our solar system. It is a scatter plot where each point represents a
-          known exoplanet, and the x-axis represents the orbital period of the
-          planet, while the y-axis represents the planet's mass. The plot shows
-          that there is a wide range of masses and orbital periods among
-          exoplanets, but there are also some patterns that emerge. For example,
-          there is a trend for more massive planets to have shorter orbital
-          periods, which is known as the <b>"hot Jupiter"</b> phenomenon. There
-          are also regions of the plot where few or no exoplanets have been
-          detected yet, which may indicate areas that are difficult to observe
-          or where planets are less likely to form. Overall, the mass-period
-          exoplanet plot provides a useful tool for studying the properties and
-          distribution of exoplanets.
-        </p>
+          <div id="mass-period-scatterplot-discovery">
+            <h3>Hot Jupiters?</h3>
+            <p>
+              The mass-period exoplanet plot is a graphical representation of
+              the relationship between the mass and orbital period of planets
+              outside of our solar system. It is a scatter plot where each point
+              represents a known exoplanet, and the x-axis represents the
+              orbital period of the planet, while the y-axis represents the
+              planet's mass. The plot shows that there is a wide range of masses
+              and orbital periods among exoplanets, but there are also some
+              patterns that emerge. For example, there is a trend for more
+              massive planets to have shorter orbital periods, which is known as
+              the <b>"hot Jupiter"</b> phenomenon. There are also regions of the
+              plot where few or no exoplanets have been detected yet, which may
+              indicate areas that are difficult to observe or where planets are
+              less likely to form. Overall, the mass-period exoplanet plot
+              provides a useful tool for studying the properties and
+              distribution of exoplanets.
+            </p>
 
-        <div class="grid">
-          <div id="discovery_plots3"></div>
-        </div>
+            <div class="grid">
+              <div id="discovery_plots3"></div>
+            </div>
+          </div>
+        </section>
 
-        <h3>Basic Habitability</h3>
-        <p>
-          When assessing the habitability of exoplanets, a rudimentary analysis
-          often takes into account two key factors: distance from the star and
-          stellar effective temperature. These two parameters provide critical
-          insights into whether a planet may possess the right conditions to
-          support life as we know it.
-        </p>
-        <p>
-          Distance from the star, also known as orbital distance or planetary
-          "habitable zone," refers to the region around a star where the
-          conditions may be just right for liquid water to exist on the surface
-          of a planet.
-          Stellar effective temperature, often referred to as the surface
-          temperature of a star, is another important factor in determining a
-          planet's habitability. The effective temperature of a star influences
-          the amount and type of radiation it emits, which in turn affects the
-          climate and atmosphere of any planets orbiting it.
-        </p>
+        <section id="habitability">
+          <h1 style="font-size: 6rem">Habitability</h1>
+          <div id="habitability-basic-plot">
+            <h3>Basic Habitability</h3>
+            <p>
+              When assessing the habitability of exoplanets, a rudimentary
+              analysis often takes into account two key factors: distance from
+              the star and stellar effective temperature. These two parameters
+              provide critical insights into whether a planet may possess the
+              right conditions to support life as we know it.
+            </p>
+            <p>
+              Distance from the star, also known as orbital distance or
+              planetary "habitable zone," refers to the region around a star
+              where the conditions may be just right for liquid water to exist
+              on the surface of a planet. Stellar effective temperature, often
+              referred to as the surface temperature of a star, is another
+              important factor in determining a planet's habitability. The
+              effective temperature of a star influences the amount and type of
+              radiation it emits, which in turn affects the climate and
+              atmosphere of any planets orbiting it.
+            </p>
 
-        <div class="grid">
-          <div id="general_plots"></div>
-        </div>
+            <div class="grid">
+              <div id="general_plots"></div>
+            </div>
+          </div>
+          <div id="other-habitability">
+            <h3>This is the heading for the habitability plot</h3>
+            <p>
+              The comparison of the relative radii of exoplanets to that of
+              Earth provides valuable insights into the diverse range of planet
+              sizes that have been discovered beyond our solar system. By
+              grouping these exoplanets into different ranges based on their
+              size in relation to Earth's radius, we can discern patterns and
+              trends that shed light on the diversity of planetary compositions
+              in the universe.
+            </p>
+            <p>
+              The comparison of the relative radii of exoplanets to that of
+              Earth provides valuable insights into the diverse range of planet
+              sizes that have been discovered beyond our solar system. By
+              grouping these exoplanets into different ranges based on their
+              size in relation to Earth's radius, we can discern patterns and
+              trends that shed light on the diversity of planetary compositions
+              in the universe.
+            </p>
 
-        <h3>This is the heading for the habitability plot</h3>
-        <p>
-          The comparison of the relative radii of exoplanets to that of Earth
-          provides valuable insights into the diverse range of planet sizes that
-          have been discovered beyond our solar system. By grouping these
-          exoplanets into different ranges based on their size in relation to
-          Earth's radius, we can discern patterns and trends that shed light on
-          the diversity of planetary compositions in the universe.
-        </p>
-        <p>
-          The comparison of the relative radii of exoplanets to that of Earth
-          provides valuable insights into the diverse range of planet sizes that
-          have been discovered beyond our solar system. By grouping these
-          exoplanets into different ranges based on their size in relation to
-          Earth's radius, we can discern patterns and trends that shed light on
-          the diversity of planetary compositions in the universe.
-        </p>
-
-        <div class="grid">
-          <div id="general_plots1"></div>
-        </div>
-
+            <div class="grid">
+              <div id="general_plots2"></div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
 
