@@ -21,10 +21,34 @@ function MassPeriodScatterPlot(
     .selectAll("path")
     .data(data)
     .join("path")
-    .attr("transform", (d) => `translate(${x(d.x)},${y(d.y)})scale(0.4)`)
+    .attr("transform", (d) => `translate(${x(d.x)},${y(d.y)})scale(0.5)`)
     .attr("fill", (d) => color(d.category))
-    .attr("opacity", 0.8)
-    .attr("d", (d) => shape(d.category));
+    .attr("opacity", 0.6)
+    .attr("d", (d) => shape(d.category))
+    .attr("class", (d) => `mps_${d.category.replace(/ /g, "_")}`)
+    .on("mouseover", (e, d) => {
+      uniques(data.map((d_2) => d_2.category)).forEach((category, i) => {
+        if (category === d.category) {
+          d3.selectAll(`.mps_${category.replace(/ /g, "_")}`).attr(
+            "opacity",
+            0.9
+          );
+        } else {
+          d3.selectAll(`.mps_${category.replace(/ /g, "_")}`).attr(
+            "opacity",
+            0.1
+          );
+        }
+      });
+    })
+    .on("mouseout", (e, d) => {
+      uniques(data.map((d_2) => d_2.category)).forEach((category, i) => {
+        d3.selectAll(`.mps_${category.replace(/ /g, "_")}`).attr(
+          "opacity",
+          0.6
+        );
+      });
+    });
 
   uniques(data.map((d) => d.category)).forEach((category, i) => {
     svg
