@@ -98,7 +98,7 @@ async function drawScatterPlot() {
   data.x = "Period (days) →";
   data.y = "↑ Earth Masses";
 
-  console.log(data.map((d) => d.pl_orbper).sort());
+  // console.log(data.map((d) => d.pl_orbper).sort());
 
   const width = 600;
   const height = 400;
