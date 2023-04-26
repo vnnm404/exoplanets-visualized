@@ -75,8 +75,7 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data2) {
     .attr("width", "100%")
     .attr(
       "viewBox",
-      `0 0 ${width + margin.left + margin.right} ${
-        height + margin.top + margin.bottom
+      `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom
       }`
     )
     .append("g")
@@ -168,6 +167,19 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data2) {
         return "red"; // non-habitable planet
       }
     })
+    .on("load", function (d) {
+      $(`#stdplot_${d.loc_rowid}`).qtip({
+        content: d.pl_name + ", temp: " + d.st_teff + ", distance: " + d.pl_orbsmax + " AU",
+        position: {
+          my: "bottom left",
+          at: "right center",
+          target: "mouse",
+        },
+        style: {
+          classes: "qtip-dark",
+        },
+      });
+    })
     .on("mouseover", function (event, d) {
       let matrix = this.getScreenCTM().translate(
         +this.getAttribute("cx"),
@@ -177,11 +189,11 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data2) {
       tooltip
         .html(
           d.pl_name +
-            ", temp: " +
-            d.st_teff +
-            ", distance: " +
-            d.pl_orbsmax +
-            " AU"
+          ", temp: " +
+          d.st_teff +
+          ", distance: " +
+          d.pl_orbsmax +
+          " AU"
         )
         .style("opacity", 1)
         .style("left", window.pageXOffset + matrix.e + 15 + "px")

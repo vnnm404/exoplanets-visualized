@@ -5,7 +5,7 @@ const height = 800 - margin.top - margin.bottom;
 // Load the data from the CSV file
 d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
- 
+
 
   // Convert the data types from strings to numbers where appropriate
   data.forEach(function (d) {
@@ -35,7 +35,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
     .tickSizeOuter(0)
     .tickPadding(10)
     .tickFormat(function (d) {
-      if(d < 1){
+      if (d < 1) {
         // return decimal value 
         return d.toFixed(2);
 
@@ -88,8 +88,8 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       }
       // if the point lies outside the range of the axis, the scale will return undefined
       // so we need to check for this and skip this iteration
-      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20|| yScale(d.koi_prad) < 20) {
-        return 
+      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20 || yScale(d.koi_prad) < 20) {
+        return
       }
       return xScale(d.koi_insol);
     })
@@ -101,9 +101,9 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         return;
       }
       if (xScale(d.koi_insol) > width || xScale(d.koi_insol) < 0 || yScale(d.koi_prad) > height || yScale(d.koi_prad) < 0) {
-        return 
+        return
       }
-      
+
 
       return yScale(d.koi_prad);
     })
@@ -125,43 +125,43 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
 
 
-    // colour using total diff with 10 distinct colours
-    if (total_diff < 0.2) {
+      // colour using total diff with 10 distinct colours
+      if (total_diff < 0.2) {
 
-      return "#00ff00";
-    } else if (total_diff < 0.4) {
-      return "#33ff00";
-    } else if (total_diff < 0.6) {
-      return "#66ff00";
-    } else if (total_diff < 0.8) {
-      return "#99ff00";
-    } else if (total_diff < 1) {
-      return "#ccff00";
+        return "#00ff00";
+      } else if (total_diff < 0.4) {
+        return "#33ff00";
+      } else if (total_diff < 0.6) {
+        return "#66ff00";
+      } else if (total_diff < 0.8) {
+        return "#99ff00";
+      } else if (total_diff < 1) {
+        return "#ccff00";
 
-    } else if (total_diff < 1.2) {
-      return "#ffff00";
-    } else if (total_diff < 1.4) {
-      return "#ffcc00";
-    } else if (total_diff < 1.6) {
-      return "#ff9900";
-    } else if (total_diff < 1.8) {
-      return "#ff6600";
-    } else if (total_diff < 2) {
-      return "#ff3300";
-    } 
-    else if (total_diff < 200) {
-      return "#ff0000";
-    }
-    else {
-      // some colour dull red
-      return "#800000";
+      } else if (total_diff < 1.2) {
+        return "#ffff00";
+      } else if (total_diff < 1.4) {
+        return "#ffcc00";
+      } else if (total_diff < 1.6) {
+        return "#ff9900";
+      } else if (total_diff < 1.8) {
+        return "#ff6600";
+      } else if (total_diff < 2) {
+        return "#ff3300";
+      }
+      else if (total_diff < 200) {
+        return "#ff0000";
+      }
+      else {
+        // some colour dull red
+        return "#800000";
 
 
-      
-    }  
 
-  })
-  
+      }
+
+    })
+
 
 
 
@@ -186,92 +186,87 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
 
   svg
-  .append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + height + ")")
-  .call(xAxis)
-  .selectAll("text")
-  .style("text-anchor", "end")
-  .attr("transform", "rotate(-90)")
-  .attr("dx", "-1.2em")
-  .attr("dy", "-1.2em")
-  // increase thickness of axis
-  
-  .style("fill", "white")
-  
+    .append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xAxis)
+    .selectAll("text")
+    .style("text-anchor", "end")
+    .attr("transform", "rotate(-90)")
+    .attr("dx", "-1.2em")
+    .attr("dy", "-1.2em")
+    // increase thickness of axis
+
+    .style("fill", "white")
+
   // add title for this axis
-  
-
-
-svg.selectAll(".x.axis path").style("stroke", "white");
-
-svg.selectAll(".x.axis line").style("stroke", "white");
-
-svg
-  .append("g")
-  .attr("class", "y axis")
-  .call(yAxis)
-  .selectAll("text")
-  .style("fill", "white");
-
-svg.selectAll(".y.axis path").style("stroke", "white");
-
-svg.selectAll(".y.axis line").style("stroke", "white");
-
-
-svg
-.append("g")
-.attr("class", "x axis")
-.attr("transform", "translate(0," + 0 + ")")
-.call(xAxis)
-
-.selectAll("text")
-
-.style("text-anchor", "end")
-.attr("transform", "rotate(-90)")
-.attr("dx", "-1.2em")
-.attr("dy", "-1.2em")
-// make text transparent
-.style("opacity", "0")
-// make text transparent
 
 
 
+  svg.selectAll(".x.axis path").style("stroke", "white");
 
-.style("fill", "white");
-svg.selectAll(".x.axis path").style("stroke", "white");
-svg.selectAll(".x.axis line").style("stroke", "white");
+  svg.selectAll(".x.axis line").style("stroke", "white");
 
-svg
-.append("g")
-.attr("class", "y axis")
-// move it to the right side of the ploy
-.attr("transform", "translate(" + width + ",0)")
-.call(yAxis)
-// make the markings transparent
+  svg
+    .append("g")
+    .attr("class", "y axis")
+    .call(yAxis)
+    .selectAll("text")
+    .style("fill", "white");
 
+  svg.selectAll(".y.axis path").style("stroke", "white");
 
-svg.selectAll(".y.axis path").style("stroke", "white");
-svg.selectAll(".y.axis line").style("stroke", "white");
-
-svg.append("text")
-   .attr("transform", "translate(" + (width/2) + "," + (height + margin.bottom) + ")")
-   .style("text-anchor", "middle")
-   .style("fill", "white")
-   .text("Radius of Planet (Earth Radii)");
-
-// Add y axis label
-svg.append("text")
-   .attr("transform", "rotate(-90)")
-   .attr("y", 0 - margin.left)
-   .attr("x", 0 - (height / 2))
-   .attr("dy", "1em")
-   .style("text-anchor", "middle")
-   .style("fill", "white")
-   .text("Insolation (Earth Flux)");
+  svg.selectAll(".y.axis line").style("stroke", "white");
 
 
-  
+  svg
+    .append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + 0 + ")")
+    .call(xAxis)
+
+    .selectAll("text")
+
+    .style("text-anchor", "end")
+    .attr("transform", "rotate(-90)")
+    .attr("dx", "-1.2em")
+    .attr("dy", "-1.2em")
+    // make text transparent
+    .style("opacity", "0")
+    // make text transparent
 
 
+
+
+    .style("fill", "white");
+  svg.selectAll(".x.axis path").style("stroke", "white");
+  svg.selectAll(".x.axis line").style("stroke", "white");
+
+  svg
+    .append("g")
+    .attr("class", "y axis")
+    // move it to the right side of the ploy
+    .attr("transform", "translate(" + width + ",0)")
+    .call(yAxis)
+  // make the markings transparent
+
+
+  svg.selectAll(".y.axis path").style("stroke", "white");
+  svg.selectAll(".y.axis line").style("stroke", "white");
+
+  svg.append("text")
+    .attr("transform", "translate(" + (width / 2) + "," + (height + margin.bottom) + ")")
+    .style("text-anchor", "middle")
+    .style("fill", "white")
+    .text("Radius of Planet (Earth Radii)");
+
+  // Add y axis label
+  svg.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .style("fill", "white")
+    .text("Insolation (Earth Flux)");
 }); // End of data loading
