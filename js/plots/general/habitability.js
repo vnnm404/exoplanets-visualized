@@ -28,24 +28,29 @@ let tooltip = d3
     .style("padding", "5px");
 
 d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
+    let data2 = []
     // Convert the data types from strings to numbers where appropriate
     data.forEach(function (d) {
+        d.koi_prad = +d.koi_prad;
         d.koi_steff = +d.koi_steff;
         d.koi_insol = +d.koi_insol;
+
+        if (d.koi_insol >= 0 && d.koi_insol <= 2)
+            data2.push({ koi_steff: d.koi_steff, koi_insol: d.koi_insol, radius: d.koi_prad })
     });
 
     let xScale = d3
-        .scaleLog()
+        .scaleLinear()
         .domain(
-            d3.extent([10e3, 10e-3])
+            d3.extent([2, 0])
         )
         .range([0, width]);
 
     let yScale = d3
         .scaleLinear()
         .domain(
-            d3.extent(data, function (d) {
-                return d.koi_steff;
+            d3.extent(data2, function (d) {
+                return d.koi_steff + 500;
             })
         )
         .range([height, 0]);
@@ -128,7 +133,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         .attr("transform", "translate(" + (width / 2) + "," + (height + margin.bottom - 40) + ")")
         .style("text-anchor", "middle")
         .style("fill", "white")
-        .text("Temperature (Stellar Effective Temperature)");
+        .text("Insolation (Earth Flux)");
 
     // Add y axis label
     svg.append("text")
@@ -138,6 +143,117 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .style("fill", "white")
-        .text("Insolation (Earth Flux)");
+        .text("Temperature (Stellar Effective Temperature)");
+
+    svg.append("line")
+        .attr("x1", xScale(1.46))
+        .attr("y1", height)
+        .attr("x2", width)
+        .attr("y2", yScale(6800))
+        .style("stroke-width", 2)
+        .style("stroke", "#ffbfc0")
+
+    svg.append("line")
+        .attr("x1", xScale(0.98))
+        .attr("y1", height)
+        .attr("x2", xScale(1.375))
+        .attr("y2", 0)
+        .style("stroke-width", 2)
+        .style("stroke", "#bedec0")
+
+    svg.append("line")
+        .attr("x1", xScale(0.91))
+        .attr("y1", height)
+        .attr("x2", xScale(1.27))
+        .attr("y2", 0)
+        .style("stroke-width", 2)
+        .style("stroke", "#97cb9a")
+
+    svg.append("line")
+        .attr("x1", xScale(0.81))
+        .attr("y1", height)
+        .attr("x2", xScale(1.1))
+        .attr("y2", 0)
+        .style("stroke-width", 2)
+        .style("stroke", "#77bb7c")
+
+    svg.append("line")
+        .attr("x1", xScale(0.225))
+        .attr("y1", height)
+        .attr("x2", xScale(0.4))
+        .attr("y2", 0)
+        .style("stroke-width", 2)
+        .style("stroke", "#5daf64")
+
+    svg.append("line")
+        .attr("x1", xScale(0.2))
+        .attr("y1", height)
+        .attr("x2", xScale(0.35))
+        .attr("y2", 0)
+        .style("stroke-width", 2)
+        .style("stroke", "#c0bffd")
+
+    let circles = svg.selectAll("circle").data(data2).enter().append("circle");
+    circles
+        .attr("cx", function (d) {
+            return xScale(d.koi_insol);
+        })
+        .attr("cy", function (d) {
+            return yScale(d.koi_steff);
+        })
+        .attr("r", function (d) {
+            if (d.radius < 1)
+                return 1
+            else if (d.radius < 10)
+                return d.radius
+            else
+                return 10
+        })
+        .attr("fill", function (d) {
+            let P = { x: d.koi_insol, y: d.koi_steff };
+            let A = { x: 1.46, y: 500 }
+            let B = { x: 2, y: 6800 }
+            let crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+
+            if (crossProduct < 0)
+                return "#ffbfc0"
+            else {
+                A = { x: 0.98, y: 500 }
+                B = { x: 1.375, y: 7200 }
+                crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+                if (crossProduct < 0)
+                    return "#bedec0"
+                else {
+                    A = { x: 0.91, y: 500 }
+                    B = { x: 1.27, y: 7200 }
+                    crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+                    if (crossProduct < 0)
+                        return "#97cb9a"
+                    else {
+                        A = { x: 0.81, y: 500 }
+                        B = { x: 1.1, y: 7200 }
+                        crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+                        if (crossProduct < 0)
+                            return "#77bb7c"
+                        else {
+                            A = { x: 0.225, y: 500 }
+                            B = { x: 0.4, y: 7200 }
+                            crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+                            if (crossProduct < 0)
+                                return "#5daf64"
+                            else {
+                                A = { x: 0.2, y: 500 }
+                                B = { x: 0.35, y: 7200 }
+                                crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+                                if (crossProduct < 0)
+                                    return "#bedec0"
+                                else
+                                    return "#c0bffd"
+                            }
+                        }
+                    }
+                }
+            }
+        })
 
 })
