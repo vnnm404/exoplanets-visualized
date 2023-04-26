@@ -146,14 +146,29 @@ function StarMap(
     .selectAll("circle")
     .data(data)
     .join("circle")
-    .attr("r", (d) => radius(d.magnitude))
-    .attr("opacity", 0.7)
+    .attr("r", (d) => {
+      if (d.pl_name.startsWith("Tee")) return 12;
+      return radius(d.magnitude);
+    })
+    .attr("opacity", (d) => {
+      if (d.pl_name.startsWith("Tee")) return 1;
+      return 0.7;
+    })
+    .attr("stroke", (d) => {
+      if (d.pl_name.startsWith("Tee")) return "white";
+      return "none";
+    })
+    .attr("stroke-width", (d) => {
+      if (d.pl_name.startsWith("Tee")) return 3;
+      return 0;
+    })
     .attr("fill", (d) => {
-      if (d.pl_name.startsWith("Kepler")) return "lightcoral";
+      if (d.pl_name.startsWith("Kepler")) return "pink";
       if (d.pl_name.startsWith("K2")) return "lightblue";
       if (d.pl_name.startsWith("TOI")) return "teal";
-      if (d.pl_name.startsWith("HAT")) return "olive";
-      if (d.pl_name.startsWith("WASP")) return "maroon";
+      if (d.pl_name.startsWith("HAT")) return "lightbrown";
+      if (d.pl_name.startsWith("WASP")) return "lightcoral";
+      if (d.pl_name.startsWith("Tee")) return "blue";
 
       return "white";
     })
@@ -218,6 +233,13 @@ async function drawScatterPlot() {
       return c;
     }, {})
   );
+
+  data.push({
+    pl_name: "Teegarden's Star b",
+    pl_rade: 1.02,
+    decstr: "+16d51m53.65s",
+    rastr: "02h53m04.59s",
+  });
 
   data = data.filter((d) => {
     const category = categorizePlanetByRadius(Number(d.pl_rade));
