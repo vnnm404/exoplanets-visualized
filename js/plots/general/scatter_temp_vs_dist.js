@@ -190,21 +190,5 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
       d3.select(this).style("fill", "none");
     });
 
-  svg
-    .append("line")
-    .attr("class", "habitable-line")
-    .attr("x1", xScale(0))
-    .attr("y1", yScale(habitableMinTemp))
-    .attr("x2", xScale(habitableMaxDist))
-    .attr("y2", yScale(habitableMinTemp))
-    .style("stroke", "white");
-
-  svg
-    .append("line")
-    .attr("class", "habitable-line")
-    .attr("x1", xScale(habitableMaxDist))
-    .attr("y1", yScale(habitableMinTemp))
-    .attr("x2", xScale(habitableMaxDist))
-    .attr("y2", yScale(habitableMaxTemp));
-  // .style("stroke", "white")
+  
 }); // End of data loading
