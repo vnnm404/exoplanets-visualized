@@ -81,11 +81,11 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       var test = xScale(d.koi_insol);
       if (!test) {
         // skip this iteration 
-        return;
+        return 9999;
       }
       // if the point lies outside the range of the axis, the scale will return undefined
       // so we need to check for this and skip this iteration
-      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20 || yScale(d.koi_prad) < 20) {
+      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20 || yScale(d.koi_prad) < 0) {
         return 9999
       }
       return xScale(d.koi_insol);
@@ -95,7 +95,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       var test = yScale(d.koi_prad);
       if (!test) {
         // skip this iteration
-        return;
+        return 9999;
       }
       if (xScale(d.koi_insol) > width || xScale(d.koi_insol) < 0 || yScale(d.koi_prad) > height || yScale(d.koi_prad) < 0) {
         return 9999
@@ -114,39 +114,37 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       var earth_esi = 1;
 
       // calculate the total difference between the earth and this planet using only insol and prad
-      var insol_diff = Math.abs(d.koi_insol - earth_insol) / earth_insol;
-      var prad_diff = Math.abs(d.koi_prad - earth_prad) / earth_prad;
-      var total_diff = (insol_diff + prad_diff) / 2;
+      var insol_diff = (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol)) * (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol))
+      var prad_diff = (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad)) * (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad))
 
-      // colour using total diff with 10 distinct colours
-      if (total_diff < 0.2) {
-        return "#00ff00";
-      } else if (total_diff < 0.4) {
-        return "#33ff00";
-      } else if (total_diff < 0.6) {
-        return "#66ff00";
-      } else if (total_diff < 0.8) {
-        return "#99ff00";
-      } else if (total_diff < 1) {
-        return "#ccff00";
-      } else if (total_diff < 1.2) {
-        return "#ffff00";
-      } else if (total_diff < 1.4) {
-        return "#ffcc00";
-      } else if (total_diff < 1.6) {
-        return "#ff9900";
-      } else if (total_diff < 1.8) {
-        return "#ff6600";
-      } else if (total_diff < 2) {
-        return "#ff3300";
-      }
-      else if (total_diff < 200) {
-        return "#ff0000";
-      }
-      else {
-        // some colour dull red
-        return "#800000";
-      }
+
+      var esi = 1 - Math.sqrt((insol_diff + prad_diff) / 2);
+
+      var earth_insol = 1.361;
+      var earth_prad = 1;
+      var earth_esi = 1;
+
+      // calculate the total difference between the earth and this planet using only insol and prad
+      var insol_diff = (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol)) * (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol))
+      var prad_diff = (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad)) * (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad))
+
+
+      var esi = 1 - Math.sqrt((insol_diff + prad_diff) / 2);
+      console.log(esi)
+
+
+
+
+      // map from green to red based on 0 to 1, make a function
+      var color = d3.scaleLinear()
+        .domain([0, 1])
+        .range(["red", "green"]);
+      // use colour function to get a colour based on esi
+      return color(esi);
+
+
+
+
 
     })
 
@@ -256,6 +254,34 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
     .attr("dy", "1em")
     .style("text-anchor", "middle")
     .style("fill", "white")
-    .text("Radius of Planet (Earth Radii)");
+    .text("Insolation (Earth Flux)");
+
+
+  // Define the color ranges and corresponding values
+  const colorRanges = [
+    { color: "#00ff00", range: " Closer to esi = 1" },
+    { color: "#ff0000", range: "Closer to esi = 0" },
+    { color: "#ffffff", range: "Earth, esi = 1" },
+
+  ];
+
+  colorRanges.forEach((colorRange, index) => {
+    // Add a legend for each color range
+
+
+
+
+
+    svg
+      .append("text")
+      .attr("x", 20)
+      .attr("y", 20 * index + 15)
+      .text(colorRange.range)
+      .attr("transform", "translate(0, 20)")
+      // color it according t0 that colour rang
+      .style("fill", colorRange.color)
+  });
+
+
 
 }); // End of data loading
