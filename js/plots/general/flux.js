@@ -31,26 +31,26 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
   // Define the x and y axes
   var xAxis = d3
-  .axisBottom(xScale)
-  .tickSizeOuter(0)
-  .tickPadding(10)
-  .tickFormat(function (d) {
-    // Check if the number is greater than or equal to 1
-    if (d >= 1) {
-      // If yes, return the number without the "m"
+    .axisBottom(xScale)
+    .tickSizeOuter(0)
+    .tickPadding(10)
+    .tickFormat(function (d) {
+      if(d < 1){
+        // return decimal value 
+        return d.toFixed(2);
+
+      }
       return d;
-    } else {
-      // If not, return the number in scientific notation
-      return d.toExponential(0);
-    }
-  });
+
+    });
+
   var yAxis = d3.axisLeft(yScale).tickSizeOuter(0).tickPadding(10);
 
 
 
   // Create the SVG container and add the axes
   var svg = d3
-    .select("#general_plots2")
+    .select("#general_plots3")
     .append("svg")
     .attr("preserveAspectRatio", "none")
     .attr("width", "100%")
@@ -88,7 +88,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       }
       // if the point lies outside the range of the axis, the scale will return undefined
       // so we need to check for this and skip this iteration
-      if (xScale(d.koi_insol) > width || xScale(d.koi_insol) < 0 || yScale(d.koi_prad) > height || yScale(d.koi_prad) < 0) {
+      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20|| yScale(d.koi_prad) < 20) {
         return 
       }
       return xScale(d.koi_insol);
@@ -195,6 +195,8 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
   .attr("transform", "rotate(-90)")
   .attr("dx", "-1.2em")
   .attr("dy", "-1.2em")
+  // increase thickness of axis
+  
   .style("fill", "white")
   
   // add title for this axis
