@@ -22,10 +22,14 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data2) {
   });
 
   const data = Object.values(
-    data2.reduce((c, e) => {
-      if (!c[e.pl_name]) c[e.pl_name] = e;
-      return c;
-    }, {})
+    data2
+      .filter((d) => {
+        return d.st_teff && d.pl_orbsmax && d.pl_rade;
+      })
+      .reduce((c, e) => {
+        if (!c[e.pl_name]) c[e.pl_name] = e;
+        return c;
+      }, {})
   );
 
   // Define the scales for the x and y axes
