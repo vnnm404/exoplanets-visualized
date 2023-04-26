@@ -82,6 +82,12 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
   var circles = svg.selectAll("circle").data(data).enter().append("circle");
   let name = "";
   circles
+  // add unique classname
+    .attr("class", function (d) {
+      name = d.kepoi_name;
+      return name;
+    })
+
     .attr("cx", function (d) {
       var test = xScale(d.koi_insol);
       if (!test) {
@@ -113,16 +119,20 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       return 2
     })
     .attr("fill", function (d) {
-      // return a colour based on esi compared to earth. first define the earths amouunts
+      
       var earth_insol = 1.361;
       var earth_prad = 1;
       var earth_esi = 1;
+
+      
 
 
 
       // calculate the total difference between the earth and this planet using only insol and prad
       var insol_diff = (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol)) * (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol))
       var prad_diff = (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad)) * (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad))
+
+
 
 
       var esi = 1 - Math.sqrt((insol_diff + prad_diff) / 2);
@@ -149,11 +159,8 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
     // opacity 0.6
     .attr("opacity", 0.4)
     // make opacirt of point 1 on hover
-    .on("mouseover", function (d) {
-      // get the planet at d from the data array
-      var planet = data[d.index];
-      console.log(planet)
-      
+    .on("mouseover", function (event, d) {
+
 
 
       d3.select(this).attr("opacity", 1);
@@ -183,6 +190,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
       var esi = 1 - Math.sqrt((insol_diff + prad_diff) / 2);
 
+      
       tooltip
         .html(
           // print name, radius, insolation, and esi
@@ -212,6 +220,8 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       d3.select(this).attr("opacity", 0.4);
       // radius smaller
       d3.select(this).transition().duration(100).attr("r", 2);
+      // make tooltip invisible
+      tooltip.style("opacity", 0);
 
     })
 
