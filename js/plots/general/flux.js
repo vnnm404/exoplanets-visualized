@@ -65,32 +65,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
     .style("border-radius", "5px")
     .style("padding", "5px");
 
-  svg
-    .append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
-    .selectAll("text")
-    .style("text-anchor", "end")
-    .attr("transform", "rotate(-90)")
-    .attr("dx", "-1.2em")
-    .attr("dy", "-1.2em")
-    .style("fill", "white");
 
-  svg.selectAll(".x.axis path").style("stroke", "white");
-
-  svg.selectAll(".x.axis line").style("stroke", "white");
-
-  svg
-    .append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
-    .selectAll("text")
-    .style("fill", "white");
-
-  svg.selectAll(".y.axis path").style("stroke", "white");
-
-  svg.selectAll(".y.axis line").style("stroke", "white");
 
   // Bind the data to a selection of circles
   var circles = svg.selectAll("circle").data(data).enter().append("circle");
@@ -102,6 +77,11 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         // skip this iteration 
         return;
       }
+      // if the point lies outside the range of the axis, the scale will return undefined
+      // so we need to check for this and skip this iteration
+      if (xScale(d.koi_insol) > width || xScale(d.koi_insol) < 0 || yScale(d.koi_prad) > height || yScale(d.koi_prad) < 0) {
+        return 
+      }
       return xScale(d.koi_insol);
     })
     .attr("cy", function (d) {
@@ -111,6 +91,10 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         // skip this iteration
         return;
       }
+      if (xScale(d.koi_insol) > width || xScale(d.koi_insol) < 0 || yScale(d.koi_prad) > height || yScale(d.koi_prad) < 0) {
+        return 
+      }
+      
 
       return yScale(d.koi_prad);
     })
@@ -123,50 +107,50 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       var earth_prad = 1;
       var earth_esi = 1;
 
-      // calculate the difference between the earth and the current planet
-      var insol_diff = Math.abs(earth_insol - d.koi_insol);
-      var prad_diff = Math.abs(earth_prad - d.koi_prad);
+      // calculate the total difference between the earth and this planet using only insol and prad
+      var insol_diff = Math.abs(d.koi_insol - earth_insol) / earth_insol;
+      var prad_diff = Math.abs(d.koi_prad - earth_prad) / earth_prad;
+      var total_diff = (insol_diff + prad_diff) / 2;
 
-      // calculate the ratio between the earth and the current planet
-      var insol_ratio = insol_diff / earth_insol;
-      var prad_ratio = prad_diff / earth_prad;
 
-      // calculate the difference between the earth and the current planet
-      var esi_diff = Math.abs(earth_esi - d.koi_srad);
 
-      // calculate the ratio between the earth and the current planet
-      var esi_ratio = esi_diff / earth_esi;
-
-      // calculate the total difference between the earth and the current planet
-      var total_diff = (insol_ratio + prad_ratio + esi_ratio) / 3;
 
 
     // colour using total diff with 10 distinct colours
-    if (total_diff < 0.1) {
+    if (total_diff < 0.2) {
 
       return "#00ff00";
-    } else if (total_diff < 0.2) {
-      return "#33ff00";
-    } else if (total_diff < 0.3) {
-      return "#66ff00";
     } else if (total_diff < 0.4) {
+      return "#33ff00";
+    } else if (total_diff < 0.6) {
+      return "#66ff00";
+    } else if (total_diff < 0.8) {
       return "#99ff00";
-    } else if (total_diff < 0.5) {
+    } else if (total_diff < 1) {
       return "#ccff00";
 
-    } else if (total_diff < 0.6) {
+    } else if (total_diff < 1.2) {
       return "#ffff00";
-    } else if (total_diff < 0.7) {
+    } else if (total_diff < 1.4) {
       return "#ffcc00";
-    } else if (total_diff < 0.8) {
+    } else if (total_diff < 1.6) {
       return "#ff9900";
-    } else if (total_diff < 0.9) {
+    } else if (total_diff < 1.8) {
       return "#ff6600";
-    } else if (total_diff < 1) {
+    } else if (total_diff < 2) {
       return "#ff3300";
-    } else {
+    } 
+    else if (total_diff < 200) {
       return "#ff0000";
     }
+    else {
+      // some colour dull red
+      return "#800000";
+
+
+      
+    }  
+
   })
   
 
@@ -190,6 +174,74 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
     })
   // Set the position and size attributes based on the data
 
+
+
+  svg
+  .append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis)
+  .selectAll("text")
+  .style("text-anchor", "end")
+  .attr("transform", "rotate(-90)")
+  .attr("dx", "-1.2em")
+  .attr("dy", "-1.2em")
+  .style("fill", "white");
+
+svg.selectAll(".x.axis path").style("stroke", "white");
+
+svg.selectAll(".x.axis line").style("stroke", "white");
+
+svg
+  .append("g")
+  .attr("class", "y axis")
+  .call(yAxis)
+  .selectAll("text")
+  .style("fill", "white");
+
+svg.selectAll(".y.axis path").style("stroke", "white");
+
+svg.selectAll(".y.axis line").style("stroke", "white");
+
+
+svg
+.append("g")
+.attr("class", "x axis")
+.attr("transform", "translate(0," + 0 + ")")
+.call(xAxis)
+
+.selectAll("text")
+
+.style("text-anchor", "end")
+.attr("transform", "rotate(-90)")
+.attr("dx", "-1.2em")
+.attr("dy", "-1.2em")
+// make text transparent
+.style("opacity", "0")
+// make text transparent
+
+
+
+
+.style("fill", "white");
+svg.selectAll(".x.axis path").style("stroke", "white");
+svg.selectAll(".x.axis line").style("stroke", "white");
+
+svg
+.append("g")
+.attr("class", "y axis")
+// move it to the right side of the ploy
+.attr("transform", "translate(" + width + ",0)")
+.call(yAxis)
+// make the markings transparent
+
+
+svg.selectAll(".y.axis path").style("stroke", "white");
+svg.selectAll(".y.axis line").style("stroke", "white");
+
+
+
+  
 
 
 }); // End of data loading
