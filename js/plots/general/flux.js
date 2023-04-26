@@ -4,6 +4,9 @@ const height = 800 - margin.top - margin.bottom;
 
 // Load the data from the CSV file
 d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
+
+ 
+
   // Convert the data types from strings to numbers where appropriate
   data.forEach(function (d) {
     d.koi_prad = +d.koi_prad;
@@ -28,13 +31,19 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
   // Define the x and y axes
   var xAxis = d3
-    .axisBottom(xScale)
-    .tickSizeOuter(0)
-    .tickPadding(10)
-    .tickFormat(function (d) {
+  .axisBottom(xScale)
+  .tickSizeOuter(0)
+  .tickPadding(10)
+  .tickFormat(function (d) {
+    // Check if the number is greater than or equal to 1
+    if (d >= 1) {
+      // If yes, return the number without the "m"
       return d;
-    });
-
+    } else {
+      // If not, return the number in scientific notation
+      return d.toExponential(0);
+    }
+  });
   var yAxis = d3.axisLeft(yScale).tickSizeOuter(0).tickPadding(10);
 
 
@@ -186,7 +195,11 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
   .attr("transform", "rotate(-90)")
   .attr("dx", "-1.2em")
   .attr("dy", "-1.2em")
-  .style("fill", "white");
+  .style("fill", "white")
+  
+  // add title for this axis
+  
+
 
 svg.selectAll(".x.axis path").style("stroke", "white");
 
@@ -239,6 +252,21 @@ svg
 svg.selectAll(".y.axis path").style("stroke", "white");
 svg.selectAll(".y.axis line").style("stroke", "white");
 
+svg.append("text")
+   .attr("transform", "translate(" + (width/2) + "," + (height + margin.bottom) + ")")
+   .style("text-anchor", "middle")
+   .style("fill", "white")
+   .text("Radius of Planet (Earth Radii)");
+
+// Add y axis label
+svg.append("text")
+   .attr("transform", "rotate(-90)")
+   .attr("y", 0 - margin.left)
+   .attr("x", 0 - (height / 2))
+   .attr("dy", "1em")
+   .style("text-anchor", "middle")
+   .style("fill", "white")
+   .text("Insolation (Earth Flux)");
 
 
   
