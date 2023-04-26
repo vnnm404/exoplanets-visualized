@@ -1,3 +1,27 @@
+// # This file was produced by the NASA Exoplanet Archive  http://exoplanetarchive.ipac.caltech.edu
+// # Wed Apr 26 13: 54: 24 2023
+// #
+// # User preference: *
+// #
+// # CONSTRAINT: where(pl_name_display not null
+// # CONSTRAINT: and pl_radestr not null
+// # CONSTRAINT: and pl_insolstr not null
+// # CONSTRAINT: and st_teffstr not null)
+// #
+// # COLUMN pl_name:        Planet Name
+// # COLUMN pl_rade:        Planet Radius[Earth Radius]
+// # COLUMN pl_radeerr1:    Planet Radius Upper Unc. [Earth Radius]
+// # COLUMN pl_radeerr2:    Planet Radius Lower Unc. [Earth Radius]
+// # COLUMN pl_radelim:     Planet Radius Limit Flag
+// # COLUMN pl_insol:       Insolation Flux[Earth Flux]
+// # COLUMN pl_insolerr1:   Insolation Flux Upper Unc. [Earth Flux]
+// # COLUMN pl_insolerr2:   Insolation Flux Lower Unc. [Earth Flux]
+// # COLUMN pl_insollim:    Insolation Flux Limit Flag
+// # COLUMN st_teff:        Stellar Effective Temperature[K]
+// # COLUMN st_tefferr1:    Stellar Effective Temperature Upper Unc. [K]
+// # COLUMN st_tefferr2:    Stellar Effective Temperature Lower Unc. [K]
+// # COLUMN st_tefflim:     Stellar Effective Temperature Limit Flag
+
 const margin = { top: 20, right: 30, bottom: 100, left: 80 };
 const width = 1200 - margin.left - margin.right;
 const height = 800 - margin.top - margin.bottom;
@@ -38,6 +62,8 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         if (d.koi_insol >= 0 && d.koi_insol <= 2)
             data2.push({ koi_steff: d.koi_steff, koi_insol: d.koi_insol, radius: d.koi_prad })
     });
+
+    data2.push()
 
     let xScale = d3
         .scaleLinear()
@@ -256,6 +282,14 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
             }
         })
 
+    const colors = [{ color: "#ffbfc0", zone: "Recent Venus" }, { color: "#bedec0", zone: "Runaway Greenhouse" }, { color: "#97cb9a", zone: "Runaway Greenhouse" }, { color: "#77bb7c", zone: "Runaway Greenhouse" }, { color: "#5daf64", zone: "Maximum Greenhouse" }, { color: "#c0bffd", zone: "Early Mars" }]
 
+    colors.forEach((color, idx) => {
+        svg.append("text")
+            .attr("x", 910)
+            .attr("y", 540 + idx * 20)
+            .text(color.zone)
+            .style("fill", color.color)
+    })
 
 })
