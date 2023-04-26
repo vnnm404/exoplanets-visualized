@@ -3,9 +3,9 @@ const width = 1200 - margin.left - margin.right;
 const height = 800 - margin.top - margin.bottom;
 
 // Load the data from the CSV file
-d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
+d3.csv("/data/Exoplanets_v1.csv").then(function (data2) {
   // Convert the data types from strings to numbers where appropriate
-  data.forEach(function (d) {
+  data2.forEach(function (d) {
     d.sy_snum = +d.sy_snum;
     d.sy_pnum = +d.sy_pnum;
     d.sy_mnum = +d.sy_mnum;
@@ -20,6 +20,13 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
     d.st_logg = +d.st_logg;
     d.sy_dist = +d.sy_dist;
   });
+
+  const data = Object.values(
+    data2.reduce((c, e) => {
+      if (!c[e.pl_name]) c[e.pl_name] = e;
+      return c;
+    }, {})
+  );
 
   // Define the scales for the x and y axes
   var xScale = d3
@@ -144,6 +151,7 @@ d3.csv("/data/Exoplanets_v1.csv").then(function (data) {
     .attr("r", function (d) {
       return d.pl_rade / 1.8 || 3 / 1.8;
     })
+    .attr("id", (d) => `stdplot_${d.loc_rowid}`)
     .style("fill", "none") // set a default radius of 3 if pl_rade is missing
     .style("stroke", function (d) {
       if (
