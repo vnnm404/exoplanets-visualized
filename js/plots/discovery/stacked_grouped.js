@@ -27,12 +27,28 @@ function chart(
     .join("rect")
     .attr("x", (d, i) => {
       // console.log(i + 1992);
+      // console.log(d);
       return x(i);
     })
     .attr("y", height - margin.bottom)
     .attr("width", x.bandwidth())
     .attr("height", 0)
-    .attr("opacity", 0.7);
+    .attr("opacity", 0.7)
+    .attr("class", (d) => `sgp_${d[2]}`)
+    .on("mouseover", (e, d) => {
+      [0, 1, 2, 3].forEach((category2, i) => {
+        if (category2 === d[2]) {
+          d3.selectAll(`.sgp_${category2}`).attr("opacity", 0.9);
+        } else {
+          d3.selectAll(`.sgp_${category2}`).attr("opacity", 0.3);
+        }
+      });
+    })
+    .on("mouseout", (e, d) => {
+      [0, 1, 2, 3].forEach((category2, i) => {
+        d3.selectAll(`.sgp_${category2}`).attr("opacity", 0.7);
+      });
+    });
 
   svg
     .append("g")
@@ -57,7 +73,7 @@ function chart(
       .attr("x2", width - margin.right - 4)
       .attr("y1", y(d))
       .attr("y2", y(d))
-      .attr("style", "stroke: rgba(244, 244, 248, 0.1); stoke-width: 1;");
+      .attr("style", "stroke: rgba(244, 244, 248, 0.1); stoke-width: 0.5;");
   });
 
   yG.selectAll("text").attr("transform", "scale(0.9)");
@@ -84,7 +100,7 @@ function chart(
     .text("Number of Detections");
 
   function transitionGrouped() {
-    y.domain([0, yMax + 200]);
+    y.domain([0, y1Max + 200]);
 
     rect
       .transition()
@@ -202,7 +218,7 @@ async function draw() {
     return colors[colors.length - i - 1];
   };
 
-  // console.log(y01z);
+  // console.log(yz);
 
   const yMax = d3.max(yz, (y) => d3.max(y));
   const y1Max = d3.max(y01z, (y) => d3.max(y, (d) => d[1]));
