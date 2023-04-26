@@ -147,6 +147,16 @@ function StarMap(
     .data(data)
     .join("circle")
     .attr("r", (d) => radius(d.magnitude))
+    .attr("opacity", 0.7)
+    .attr("fill", (d) => {
+      if (d.pl_name.startsWith("Kepler")) return "lightcoral";
+      if (d.pl_name.startsWith("K2")) return "lightblue";
+      if (d.pl_name.startsWith("TOI")) return "teal";
+      if (d.pl_name.startsWith("HAT")) return "olive";
+      if (d.pl_name.startsWith("WASP")) return "maroon";
+
+      return "white";
+    })
     .attr("transform", (d) => `translate(${projection(d)})`);
 
   svg

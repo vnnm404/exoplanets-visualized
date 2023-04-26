@@ -56,7 +56,30 @@ function MassPeriodScatterPlot(
       .attr("x", 465)
       .attr("y", height - 75 - 15 * i)
       .attr("style", `color: ${color(category)}; font-size: 0.5rem`)
-      .text(category);
+      .text(category)
+      .on("mouseover", (e) => {
+        uniques(data.map((d_2) => d_2.category)).forEach((category2, i) => {
+          if (category2 === category) {
+            d3.selectAll(`.mps_${category2.replace(/ /g, "_")}`).attr(
+              "opacity",
+              0.9
+            );
+          } else {
+            d3.selectAll(`.mps_${category2.replace(/ /g, "_")}`).attr(
+              "opacity",
+              0.1
+            );
+          }
+        });
+      })
+      .on("mouseout", (e) => {
+        uniques(data.map((d_2) => d_2.category)).forEach((category2, i) => {
+          d3.selectAll(`.mps_${category2.replace(/ /g, "_")}`).attr(
+            "opacity",
+            0.6
+          );
+        });
+      });
 
     svg
       .append("path")
@@ -66,7 +89,30 @@ function MassPeriodScatterPlot(
       )
       .attr("fill", color(category))
       .attr("d", shape(category))
-      .attr("opacity", 0.8);
+      .attr("opacity", 0.8)
+      .on("mouseover", (e) => {
+        uniques(data.map((d_2) => d_2.category)).forEach((category2, i) => {
+          if (category2 === category) {
+            d3.selectAll(`.mps_${category2.replace(/ /g, "_")}`).attr(
+              "opacity",
+              0.9
+            );
+          } else {
+            d3.selectAll(`.mps_${category2.replace(/ /g, "_")}`).attr(
+              "opacity",
+              0.1
+            );
+          }
+        });
+      })
+      .on("mouseout", (e) => {
+        uniques(data.map((d_2) => d_2.category)).forEach((category2, i) => {
+          d3.selectAll(`.mps_${category2.replace(/ /g, "_")}`).attr(
+            "opacity",
+            0.6
+          );
+        });
+      });
   });
 
   svg
