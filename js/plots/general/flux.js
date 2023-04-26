@@ -84,11 +84,11 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       var test = xScale(d.koi_insol);
       if (!test) {
         // skip this iteration 
-        return;
+        return 9999;
       }
       // if the point lies outside the range of the axis, the scale will return undefined
       // so we need to check for this and skip this iteration
-      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20 || yScale(d.koi_prad) < 20) {
+      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20 || yScale(d.koi_prad) < 0) {
         return 9999
       }
       return xScale(d.koi_insol);
@@ -98,7 +98,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       var test = yScale(d.koi_prad);
       if (!test) {
         // skip this iteration
-        return;
+        return 9999 ;
       }
       if (xScale(d.koi_insol) > width || xScale(d.koi_insol) < 0 || yScale(d.koi_prad) > height || yScale(d.koi_prad) < 0) {
         return 9999
