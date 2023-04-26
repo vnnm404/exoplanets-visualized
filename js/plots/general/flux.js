@@ -140,31 +140,6 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       // calculate the total difference between the earth and the current planet
       var total_diff = (insol_ratio + prad_ratio + esi_ratio) / 3;
 
-      // colour the points using this value
-    //   if (total_diff < 0.1) {
-    //     return "#00ff00";
-    //   } else if (total_diff < 0.2) {
-    //     return "#33ff00";
-    //   } else if (total_diff < 0.3) {
-    //     return "#66ff00";
-    //   } else if (total_diff < 0.4) {
-    //     return "#99ff00";
-    //   } else if (total_diff < 0.5) {
-    //     return "#ccff00";
-    //   } else if (total_diff < 0.6) {
-    //     return "#ffff00";
-    //   } else if (total_diff < 0.7) {
-    //     return "#ffcc00";
-    //   } else if (total_diff < 0.8) {
-    //     return "#ff9900";
-    //   } else if (total_diff < 0.9) {
-    //     return "#ff6600";
-    //   } else if (total_diff < 1) {
-    //     return "#ff3300";
-    //   } else {
-    //     return "#ff0000";
-    //   }
-    // })
 
     // colour using total diff with 10 distinct colours
     if (total_diff < 0.1) {
@@ -214,5 +189,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
       return "#ffffff";
     })
   // Set the position and size attributes based on the data
+
+
 
 }); // End of data loading
