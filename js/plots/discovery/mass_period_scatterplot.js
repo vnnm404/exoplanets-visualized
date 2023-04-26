@@ -22,6 +22,7 @@ function MassPeriodScatterPlot(
     .data(data)
     .join("path")
     .attr("transform", (d) => `translate(${x(d.x)},${y(d.y)})scale(0.5)`)
+    .attr("id", (d, i) => `mps_${i}`)
     .attr("fill", (d) => color(d.category))
     .attr("opacity", 0.6)
     .attr("d", (d) => shape(d.category))
@@ -242,6 +243,20 @@ async function drawScatterPlot() {
   });
 
   document.getElementById("discovery_plots3").appendChild(svg);
+
+  data.forEach((d, i) => {
+    $(`#mps_${i}`).qtip({
+      content: d.pl_name,
+      position: {
+        my: "bottom left",
+        at: "right center",
+        target: "mouse",
+      },
+      style: {
+        classes: "qtip-dark",
+      },
+    });
+  });
 }
 
 drawScatterPlot();
