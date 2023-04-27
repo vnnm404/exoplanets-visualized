@@ -51,24 +51,24 @@ let tooltip = d3
     .style("border-radius", "5px")
     .style("padding", "5px");
 
-d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
+d3.csv("/data/ESI_and_zone.csv").then(function (data) {
     let data2 = []
+    data2.push({ 'temp': 3600, 'flux': 1.15, 'radius': 1.0161, 'name': 'Teegardens Star b' })
+    data2.push({ 'temp': 5900, 'flux': 1, 'radius': 1, 'name': 'Earth' })
     // Convert the data types from strings to numbers where appropriate
     data.forEach(function (d) {
-        d.koi_prad = +d.koi_prad;
-        d.koi_steff = +d.koi_steff;
-        d.koi_insol = +d.koi_insol;
+        d.pl_rade = +d.pl_rade;
+        d.st_teff = +d.st_teff;
+        d.pl_insol = +d.pl_insol;
 
-        if (d.koi_insol >= 0 && d.koi_insol <= 2)
-            data2.push({ koi_steff: d.koi_steff, koi_insol: d.koi_insol, radius: d.koi_prad, name: d.kepler_name })
+        if (d.pl_insol >= 0 && d.pl_insol <= 2)
+            data2.push({ 'temp': d.st_teff, 'flux': d.pl_insol, 'radius': d.pl_rade, 'name': d.pl_name })
     });
-
-    data2.push()
 
     let xScale = d3
         .scaleLinear()
         .domain(
-            d3.extent([2, 0])
+            d3.extent([0, 2])
         )
         .range([0, width]);
 
@@ -76,7 +76,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         .scaleLinear()
         .domain(
             d3.extent(data2, function (d) {
-                return d.koi_steff + 500;
+                return d.temp;
             })
         )
         .range([height, 0]);
@@ -86,12 +86,9 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         .tickSizeOuter(0)
         .tickPadding(10)
         .tickFormat(function (d) {
-            // Check if the number is greater than or equal to 1
             if (d >= 1) {
-                // If yes, return the number without the "m"
                 return d;
             } else {
-                // If not, return the number in scientific notation
                 return d.toExponential(0);
             }
         });
@@ -125,24 +122,19 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
     svg.selectAll(".y.axis line").style("stroke", "white");
 
-
     svg
         .append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + 0 + ")")
         .call(xAxis)
-
         .selectAll("text")
-
         .style("text-anchor", "end")
         .attr("transform", "rotate(-90)")
         .attr("dx", "-1.2em")
         .attr("dy", "-1.2em")
-        // make text transparent
         .style("opacity", "0")
-        // make text transparent
-
         .style("fill", "white");
+
     svg.selectAll(".x.axis path").style("stroke", "white");
     svg.selectAll(".x.axis line").style("stroke", "white");
 
@@ -175,7 +167,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         .attr("x1", xScale(1.46))
         .attr("y1", height)
         .attr("x2", width)
-        .attr("y2", yScale(6800))
+        .attr("y2", yScale(6100))
         .style("stroke-width", 2)
         .style("stroke", "#ffbfc0")
 
@@ -222,13 +214,15 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
     let circles = svg.selectAll("circle").data(data2).enter().append("circle");
     circles
         .attr("cx", function (d) {
-            return xScale(d.koi_insol);
+            return xScale(d.flux);
         })
         .attr("cy", function (d) {
-            return yScale(d.koi_steff);
+            return yScale(d.temp);
         })
         .attr("r", function (d) {
-            if (d.radius < 1)
+            if (d.name == 'Teegardens Star b' || d.name == 'Earth')
+                return 8
+            else if (d.radius < 1)
                 return 1
             else if (d.radius < 10)
                 return d.radius
@@ -236,51 +230,92 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
                 return 10
         })
         .attr("fill", function (d) {
-            let P = { x: d.koi_insol, y: d.koi_steff };
-            let A = { x: 1.46, y: 500 }
-            let B = { x: 2, y: 6800 }
-            let crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
-
-            if (crossProduct < 0)
-                return "#ffbfc0"
+            if (d.name == 'Teegardens Star b')
+                return "blue"
+            else if (d.name == 'Earth')
+                return "white"
             else {
-                A = { x: 0.98, y: 500 }
-                B = { x: 1.375, y: 7200 }
-                crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+                let P = { x: d.flux, y: d.temp };
+                let A = { x: 1.46, y: 0 }
+                let B = { x: 2, y: 6100 }
+                let crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+
                 if (crossProduct < 0)
-                    return "#bedec0"
+                    return "#ffbfc0"
                 else {
-                    A = { x: 0.91, y: 500 }
-                    B = { x: 1.27, y: 7200 }
+                    A = { x: 0.98, y: 0 }
+                    B = { x: 1.375, y: 7000 }
                     crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
                     if (crossProduct < 0)
-                        return "#97cb9a"
+                        return "#bedec0"
                     else {
-                        A = { x: 0.81, y: 500 }
-                        B = { x: 1.1, y: 7200 }
+                        A = { x: 0.91, y: 0 }
+                        B = { x: 1.27, y: 7000 }
                         crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
                         if (crossProduct < 0)
-                            return "#77bb7c"
+                            return "#97cb9a"
                         else {
-                            A = { x: 0.225, y: 500 }
-                            B = { x: 0.4, y: 7200 }
+                            A = { x: 0.81, y: 0 }
+                            B = { x: 1.1, y: 7000 }
                             crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
                             if (crossProduct < 0)
-                                return "#5daf64"
+                                return "#77bb7c"
                             else {
-                                A = { x: 0.2, y: 500 }
-                                B = { x: 0.35, y: 7200 }
+                                A = { x: 0.225, y: 0 }
+                                B = { x: 0.4, y: 7000 }
                                 crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
                                 if (crossProduct < 0)
-                                    return "#bedec0"
-                                else
-                                    return "#c0bffd"
+                                    return "#5daf64"
+                                else {
+                                    A = { x: 0.2, y: 0 }
+                                    B = { x: 0.35, y: 7000 }
+                                    crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
+                                    if (crossProduct < 0)
+                                        return "#bedec0"
+                                    else
+                                        return "#c0bffd"
+                                }
                             }
                         }
                     }
                 }
             }
         })
+        .on("mouseover", function (event, d) {
+            let matrix = this.getScreenCTM().translate(
+                +this.getAttribute("cx"),
+                +this.getAttribute("cy")
+            );
+
+            tooltip
+                .html(
+                    "<b>" + d.name + "</b><br/>" +
+                    "Temp: " + d.temp + " K<br/>" +
+                    "Flux: " + d.flux
+                )
+                .style("opacity", 1)
+                .style("left", window.pageXOffset + matrix.e + 15 + "px")
+                .style("top", window.pageYOffset + matrix.f - 30 + "px");
+
+            if (d.name == 'Teegardens Star b' || d.name == 'Earth') {
+                d3.select(this).transition().duration(100).attr("r", 12);
+                d3.select(this).style("fill", "lightblue");
+                d3.select(this).style("stroke", "lightblue");
+            }
+        })
+        .on("mouseout", function (event, d) {
+            tooltip.style("opacity", 0);
+            if (d.name == 'Teegardens Star b') {
+                d3.select(this).transition().duration(100).attr("r", 8);
+                d3.select(this).style("fill", "blue");
+                d3.select(this).style("stroke", "blue");
+            }
+            else if (d.name == 'Earth') {
+                d3.select(this).transition().duration(100).attr("r", 8);
+                d3.select(this).style("fill", "white");
+                d3.select(this).style("stroke", "white");
+            }
+        });
 
     const colors = [{ color: "#ffbfc0", zone: "Recent Venus" }, { color: "#bedec0", zone: "Runaway Greenhouse" }, { color: "#97cb9a", zone: "Runaway Greenhouse" }, { color: "#77bb7c", zone: "Runaway Greenhouse" }, { color: "#5daf64", zone: "Maximum Greenhouse" }, { color: "#c0bffd", zone: "Early Mars" }]
 
