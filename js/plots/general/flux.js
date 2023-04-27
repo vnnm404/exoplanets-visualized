@@ -3,14 +3,14 @@ const width = 1200 - margin.left - margin.right;
 const height = 800 - margin.top - margin.bottom;
 
 // Load the data from the CSV file
-d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
+d3.csv("/data/ESI_and_zone.csv").then(function (data) {
 
 
 
   // Convert the data types from strings to numbers where appropriate
   data.forEach(function (d) {
-    d.koi_prad = +d.koi_prad;
-    d.koi_insol = +d.koi_insol;
+    d.pl_rade = +d.pl_rade;
+    d.pl_insol = +d.pl_insol;
     // get name 
 
 
@@ -82,76 +82,74 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
   var circles = svg.selectAll("circle").data(data).enter().append("circle");
   let name = "";
   circles
-  // add unique classname
+    // add unique classname
     .attr("class", function (d) {
       name = d.kepoi_name;
       return name;
     })
 
     .attr("cx", function (d) {
-      var test = xScale(d.koi_insol);
+      var test = xScale(d.pl_insol);
       if (!test) {
         // skip this iteration 
         return 9999;
       }
       // if the point lies outside the range of the axis, the scale will return undefined
       // so we need to check for this and skip this iteration
-      if (xScale(d.koi_insol) > width - 30 || xScale(d.koi_insol) < 10 || yScale(d.koi_prad) > height - 20 || yScale(d.koi_prad) < 0) {
+      if (xScale(d.pl_insol) > width - 30 || xScale(d.pl_insol) < 10 || yScale(d.pl_rade) > height - 20 || yScale(d.pl_rade) < 0) {
         return 9999
       }
-      return xScale(d.koi_insol);
+      return xScale(d.pl_insol);
     })
     .attr("cy", function (d) {
       // similar test
-      var test = yScale(d.koi_prad);
+      var test = yScale(d.pl_rade);
       if (!test) {
         // skip this iteration
-        return 9999 ;
+        return 9999;
       }
-      if (xScale(d.koi_insol) > width || xScale(d.koi_insol) < 0 || yScale(d.koi_prad) > height || yScale(d.koi_prad) < 0) {
+      if (xScale(d.pl_insol) > width || xScale(d.pl_insol) < 0 || yScale(d.pl_rade) > height || yScale(d.pl_rade) < 0) {
         return 9999
       }
 
 
-      return yScale(d.koi_prad);
+      return yScale(d.pl_rade);
     })
-    .attr("r", function (d) {
-      return 2
-    })
+    .attr("r", 2.85)
     .attr("fill", function (d) {
-      
+
       var earth_insol = 1.361;
       var earth_prad = 1;
       var earth_esi = 1;
 
-      
+
 
 
 
       // calculate the total difference between the earth and this planet using only insol and prad
-      var insol_diff = (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol)) * (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol))
-      var prad_diff = (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad)) * (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad))
+      var insol_diff = (Math.abs(d.pl_insol - earth_insol) / (d.pl_insol + earth_insol)) * (Math.abs(d.pl_insol - earth_insol) / (d.pl_insol + earth_insol))
+      var prad_diff = (Math.abs(d.pl_rade - earth_prad) / (earth_prad + d.pl_rade)) * (Math.abs(d.pl_rade - earth_prad) / (earth_prad + d.pl_rade))
 
 
 
 
       var esi = 1 - Math.sqrt((insol_diff + prad_diff) / 2);
-      
 
 
 
 
-     // map from green to red based on 0 to 1, make a function, make the opacity 0.6
+
+      // map from green to red based on 0 to 1, make a function, make the opacity 0.6
       var color = d3.scaleLinear()
         .domain([0, 1])
         .range(["#ff0000", "#00ff00"]);
-        
+
       // use colour function to get a colour based on esi, and opacity 0.6
       return color(esi);
 
-      
 
-        
+
+
 
 
 
@@ -172,36 +170,36 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         +this.getAttribute("cy")
       );
 
-        
 
-      // var insol_diff = (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol)) * (Math.abs(d.koi_insol - earth_insol) / (d.koi_insol + earth_insol))
-      // var prad_diff = (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad)) * (Math.abs(d.koi_prad - earth_prad) / (earth_prad + d.koi_prad))
 
-      // insert the above lines ,replace d.koi_insol with xScale.inverse(position of x pixel) and d.koi_prad with yScale.inverse(position of y pixel) to get the actual values of insol and prad
+      // var insol_diff = (Math.abs(d.pl_insol - earth_insol) / (d.pl_insol + earth_insol)) * (Math.abs(d.pl_insol - earth_insol) / (d.pl_insol + earth_insol))
+      // var prad_diff = (Math.abs(d.pl_rade - earth_prad) / (earth_prad + d.pl_rade)) * (Math.abs(d.pl_rade - earth_prad) / (earth_prad + d.pl_rade))
+
+      // insert the above lines ,replace d.pl_insol with xScale.inverse(position of x pixel) and d.pl_rade with yScale.inverse(position of y pixel) to get the actual values of insol and prad
       var earth_insol = 1.361;
       var earth_prad = 1;
       var earth_esi = 1;
 
       var insol_diff = (Math.abs(xScale.invert(matrix.e) - earth_insol) / (xScale.invert(matrix.e) + earth_insol)) * (Math.abs(xScale.invert(matrix.e) - earth_insol) / (xScale.invert(matrix.e) + earth_insol))
       var prad_diff = (Math.abs(yScale.invert(matrix.f) - earth_prad) / (earth_prad + yScale.invert(matrix.f))) * (Math.abs(yScale.invert(matrix.f) - earth_prad) / (earth_prad + yScale.invert(matrix.f)))
-      
+
 
 
 
       var esi = 1 - Math.sqrt((insol_diff + prad_diff) / 2);
 
-      
+
       tooltip
         .html(
           // print name, radius, insolation, and esi
           "<b>" +
-          d.kepoi_name +
+          d.pl_name +
           "</b><br/>" +
           "Radius: " +
-          d.koi_prad +
+          d.pl_rade +
           " Earth radii<br/>" +
           "Insolation: " +
-          d.koi_insol +
+          d.pl_insol +
           " Earth insolation<br/>" +
           "ESI: " +
           esi
@@ -211,7 +209,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         .style("left", window.pageXOffset + matrix.e + 15 + "px")
         .style("top", window.pageYOffset + matrix.f - 30 + "px");
 
-  
+
 
 
     })
@@ -225,7 +223,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
 
     })
 
-    
+
 
 
   // add a huge circle for the position of earth on this graph
@@ -334,30 +332,30 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
     .text("Insolation (Earth Flux)");
 
 
-    // Define the color ranges and corresponding values
-const colorRanges = [
-  { color: "#00ff00", range: " Closer to esi = 1" },
-  { color: "#ff0000", range: "Closer to esi = 0"},
-  { color: "#ffffff", range: "Earth, esi = 1" },
-  
-];
+  // Define the color ranges and corresponding values
+  const colorRanges = [
+    { color: "#00ff00", range: " Closer to esi = 1" },
+    { color: "#ff0000", range: "Closer to esi = 0" },
+    { color: "#ffffff", range: "Earth, esi = 1" },
 
-colorRanges.forEach((colorRange, index) => {
-  // Add a legend for each color range
+  ];
 
-
+  colorRanges.forEach((colorRange, index) => {
+    // Add a legend for each color range
 
 
 
-  svg
-    .append("text")
-    .attr("x", 20)
-    .attr("y", 20 * index + 15)
-    .text(colorRange.range)
-    .attr("transform", "translate(0, 20)")
-    // color it according t0 that colour rang
-    .style("fill", colorRange.color)
-});
+
+
+    svg
+      .append("text")
+      .attr("x", 20)
+      .attr("y", 20 * index + 15)
+      .text(colorRange.range)
+      .attr("transform", "translate(0, 20)")
+      // color it according t0 that colour rang
+      .style("fill", colorRange.color)
+  });
 
 
 

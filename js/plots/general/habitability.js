@@ -60,7 +60,7 @@ d3.csv("/data/koi_cumulative_v1.csv").then(function (data) {
         d.koi_insol = +d.koi_insol;
 
         if (d.koi_insol >= 0 && d.koi_insol <= 2)
-            data2.push({ koi_steff: d.koi_steff, koi_insol: d.koi_insol, radius: d.koi_prad })
+            data2.push({ koi_steff: d.koi_steff, koi_insol: d.koi_insol, radius: d.koi_prad, name: d.kepler_name })
     });
 
     data2.push()
