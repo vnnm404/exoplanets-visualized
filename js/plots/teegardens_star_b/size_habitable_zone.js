@@ -92,8 +92,8 @@ function drawSystem(system, svg) {
   svg
     .append("text")
     .attr("x", 0)
-    .attr("y", 40)
-    .attr("style", "font-family: monospace; color: white; font-size: 1.5rem;")
+    .attr("y", 70)
+    .attr("style", "font-family: monospace; color: white; font-size: 1.1rem;")
     .text(system.name);
 
   // Draw star
