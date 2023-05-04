@@ -236,8 +236,8 @@ d3.csv("/data/ESI_and_zone.csv").then(function (data) {
                 return "white"
             else {
                 let P = { x: d.flux, y: d.temp };
-                let A = { x: 1.46, y: 0 }
-                let B = { x: 2, y: 6100 }
+                let A = { x: 1.2, y: 0 }
+                let B = { x: 2, y: 6200 }
                 let crossProduct = (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
 
                 if (crossProduct < 0)
@@ -317,12 +317,12 @@ d3.csv("/data/ESI_and_zone.csv").then(function (data) {
             }
         });
 
-    const colors = [{ color: "#ffbfc0", zone: "Recent Venus" }, { color: "#bedec0", zone: "Runaway Greenhouse" }, { color: "#97cb9a", zone: "Runaway Greenhouse" }, { color: "#77bb7c", zone: "Runaway Greenhouse" }, { color: "#5daf64", zone: "Maximum Greenhouse" }, { color: "#c0bffd", zone: "Early Mars" }]
+    const colors = [{ color: "#ffbfc0", zone: "Recent Venus" }, { color: "#bedec0", zone: "Runaway Greenhouse Section 1" }, { color: "#97cb9a", zone: "Runaway Greenhouse Section 2" }, { color: "#77bb7c", zone: "Runaway Greenhouse Section 3" }, { color: "#5daf64", zone: "Maximum Greenhouse" }, { color: "#c0bffd", zone: "Early Mars" }]
 
     colors.forEach((color, idx) => {
         svg.append("text")
-            .attr("x", 910)
-            .attr("y", 540 + idx * 20)
+            .attr("x", 860)
+            .attr("y", 560 + idx * 20)
             .text(color.zone)
             .style("fill", color.color)
     })
