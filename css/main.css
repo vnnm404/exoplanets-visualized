@@ -276,3 +276,7 @@ hgroup {
   font-size: 2rem;
   margin-bottom: 5px;
 }
+
+canvas {
+  display: block;
+}

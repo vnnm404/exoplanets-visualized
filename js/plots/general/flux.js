@@ -105,7 +105,6 @@ d3.csv("/data/ESI_and_zone.csv").then(function (data) {
     })
     .attr("r", function (d) {
       if (d.pl_name == 'Teegardens Star b' || d.pl_name == 'Earth') {
-        console.log("hello")
         return 6
       }
       else
