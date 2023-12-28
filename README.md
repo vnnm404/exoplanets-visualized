@@ -1,3 +1,3 @@
 # Exoplanets Visualized
 
-The code for the site [Exoplanets Visualized](https://h-exoplanets.netlify.app/)
+The code for the blog [Exoplanets Visualized](https://h-exoplanets.netlify.app/)
